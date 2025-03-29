@@ -1,0 +1,6 @@
+.deck {
+  --card-width: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--card-width)), 1fr));
+  gap: 1.25rem;
+}

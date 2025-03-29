@@ -1,0 +1,38 @@
+.card {
+  --_card-width: var(--card-width, 100px);
+  --_card-height: var(--card-height, 150px);
+  --_card-gap: 10px;
+  inline-size: var(--_card-width);
+  block-size: var(--_card-height);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  background-color: var(--pico-primary-inverse);
+  border-radius: 10px;
+  box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.1);
+
+  &.flipped {
+    transform: rotateY(180deg);
+
+    .card-inner {
+      background-color: var(--pico-contrast-background);
+      transform: rotateY(0);
+    }
+  }
+  &.matched {
+    opacity: 0.5;
+  }
+
+  .card-inner {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: calc(var(--_card-width) - var(--_card-gap));
+    block-size: calc(var(--_card-height) - var(--_card-gap));
+    border-radius: 30px;
+    background-color: var(--pico-secondary);
+    display: grid;
+    place-content: center;
+    font-size: 2.25rem;
+  }
+}
