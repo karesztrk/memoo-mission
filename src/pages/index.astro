@@ -1,0 +1,15 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Counter from "@/components/Counter";
+const someProps = {
+  count: 0,
+};
+---
+
+<Layout>
+  <section>
+    <Counter {...someProps} client:visible>
+      <h1>Hello, React!</h1>
+    </Counter>
+  </section>
+</Layout>

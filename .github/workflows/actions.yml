@@ -1,0 +1,26 @@
+name: Memoo Mission
+run-name: Running actions by @${{ github.actor }}
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  e2e:
+    name: "Test"
+    runs-on: ubuntu-latest
+    environment: production
+    container:
+      image: mcr.microsoft.com/playwright:v1.51.1-jammy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: Install dependencies
+        run: pnpm i
+      - name: Run Unit tests
+        run: pnpm test
+      - name: Run Playwright tests
+        run: pnpm e2e
