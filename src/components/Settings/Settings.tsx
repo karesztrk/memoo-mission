@@ -1,26 +1,32 @@
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import "./Settings.css";
-import { useState, type FC } from "react";
-import { setUserName, type GameSettings } from "@/store/gameSlice";
+import { type FC, type FormEvent } from "react";
+import { start } from "@/store/gameSlice";
 
 interface SettingsFormProps {
-  onSubmit: (settings: GameSettings) => void;
+  numberOfPairs?: number;
+  countdownTime?: number;
 }
 
-const Settings: FC<SettingsFormProps> = ({ onSubmit }) => {
+const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60 }) => {
   const dispatch = useAppDispatch();
-  const [settings, setSettings] = useState<GameSettings>({
-    numberOfPairs: 6,
-    countdownTime: 60,
-  });
 
-  const [name, setName] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) return;
-    dispatch(setUserName(name.trim()));
-    onSubmit(settings);
+    const data = new FormData(e.target as HTMLFormElement);
+    const name = data.get("name") as string | null;
+    const pairs = data.get("pairs") as string | null;
+    const time = data.get("time") as string | null;
+    if (!name || !pairs || !time) {
+      return;
+    }
+    const trimmedName = name.trim();
+    const numberOfPairs = parseInt(pairs);
+    const countdownTime = parseInt(time);
+    if (!trimmedName || isNaN(numberOfPairs) || isNaN(countdownTime)) {
+      return;
+    }
+    dispatch(start({ username: trimmedName, numberOfPairs, countdownTime }));
   };
 
   return (
@@ -32,27 +38,21 @@ const Settings: FC<SettingsFormProps> = ({ onSubmit }) => {
       <div className="form-group">
         <label className="form-label">
           Your Name
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="form-input"
-            placeholder="Enter your name"
-          />
+          <input type="text" name="name" required className="form-input" placeholder="Enter your name" />
         </label>
       </div>
 
       <div className="form-group">
         <label className="form-label">
-          Number of Pairs (2-16)
+          Number of Pairs (6-16)
           <input
             type="number"
-            min="2"
+            name="pairs"
+            min="6"
             max="16"
-            value={settings.numberOfPairs}
-            onChange={(e) => setSettings((prev) => ({ ...prev, numberOfPairs: parseInt(e.target.value) }))}
             className="form-input"
+            defaultValue={numberOfPairs}
+            required
           />
         </label>
       </div>
@@ -62,11 +62,12 @@ const Settings: FC<SettingsFormProps> = ({ onSubmit }) => {
           Time Limit (seconds)
           <input
             type="number"
+            name="time"
             min="30"
             max="300"
-            value={settings.countdownTime}
-            onChange={(e) => setSettings((prev) => ({ ...prev, countdownTime: parseInt(e.target.value) }))}
+            defaultValue={countdownTime}
             className="form-input"
+            required
           />
         </label>
       </div>
