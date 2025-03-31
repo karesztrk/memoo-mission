@@ -6,7 +6,7 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import Settings from "@/components/Settings";
 import Deck from "../Deck";
 import Card from "../Card";
-import { flipCard, resetFlippedCards } from "@/store/cardSlice";
+import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
 
 const Board: FC = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +14,9 @@ const Board: FC = () => {
   const cardState = useAppSelector((state) => state.card);
   const username = useAppSelector((state) => state.user.userName);
   const status = useAppSelector((state) => state.game.status);
+
+  const matches = matchedPairs({ card: cardState });
+  const flipped = flippedCards({ card: cardState });
 
   const onPlayAgain = () => {
     dispatch(restart());
@@ -26,16 +29,16 @@ const Board: FC = () => {
   };
 
   useEffect(() => {
-    if (cardState.flippedCards.length === 2 && status === "playing") {
-      const allMatched = cardState.deck.every((card) => card.matched || cardState.flippedCards.includes(card.id));
+    if (flipped.length === 2 && status === "playing") {
+      const allMatched = cardState.deck.every((card) => card.matched || flipped.includes(card.id));
       dispatch(makeMove({ allMatched }));
-      if (cardState.flippedCards.length === 2) {
+      if (flipped.length === 2) {
         setTimeout(() => {
           dispatch(resetFlippedCards());
         }, 1000);
       }
     }
-  }, [cardState.flippedCards, dispatch]);
+  }, [flipped, dispatch]);
 
   useEffect(() => {
     if (status !== "playing") {
@@ -78,7 +81,7 @@ const Board: FC = () => {
             </div>
             <div className="stat-item">
               <span className="stat-text">
-                Matches: {cardState.matchedPairs} / {gameState.numberOfPairs}
+                Matches: {matches} / {gameState.numberOfPairs}
               </span>
             </div>
           </div>
@@ -86,9 +89,7 @@ const Board: FC = () => {
           {status === "gameover" && (
             <div className="game-over">
               <h2>
-                {cardState.matchedPairs === gameState.numberOfPairs
-                  ? "🎉 Congratulations! You won! 🎉"
-                  : "⏰ Time's up! Game Over ⏰"}
+                {matches === gameState.numberOfPairs ? "🎉 Congratulations! You won! 🎉" : "⏰ Time's up! Game Over ⏰"}
               </h2>
               <button onClick={onPlayAgain} className="button">
                 Play Again
