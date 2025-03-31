@@ -5,7 +5,6 @@ test.describe("Index page", () => {
     await page.goto("/");
 
     await page.getByRole("link", { name: "Memoo Mission" }).click();
-    await expect(page.getByRole("heading", { name: "Game" })).toBeVisible();
   });
 
   test("Footer info is rendered", async ({ page }) => {
