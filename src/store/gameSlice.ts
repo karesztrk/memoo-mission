@@ -1,13 +1,16 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-const MIN_PAIRS = 6;
-const MIN_TIME = 60;
+const DEFAULT_PAIRS = 6;
+const DEFAULT_TIME = 60;
 
 export interface GameSettings {
   countdownTime: number;
   numberOfPairs: number;
-  username: string;
   deck: string[];
+}
+
+export interface GameStart extends GameSettings {
+  username: string;
 }
 
 export interface Card {
@@ -36,8 +39,8 @@ export interface GameState {
 
 const initialState: GameState = {
   cards: [],
-  numberOfPairs: MIN_PAIRS,
-  timeRemaining: MIN_TIME,
+  numberOfPairs: DEFAULT_PAIRS,
+  timeRemaining: DEFAULT_TIME,
   elapsedTime: 0,
   status: "idle",
   moves: 0,
@@ -48,14 +51,20 @@ const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    start: (state, action: PayloadAction<GameSettings>) => {
+    start: (state, action: PayloadAction<GameStart>) => {
       const { countdownTime, numberOfPairs } = action.payload;
+      state.status = "playing";
       state.timeRemaining = countdownTime;
       state.numberOfPairs = numberOfPairs;
       state.elapsedTime = 0;
-      state.status = "playing";
       state.moves = 0;
       state.matches = 0;
+    },
+
+    updateSettings: (state, action: PayloadAction<GameSettings>) => {
+      const { countdownTime, numberOfPairs } = action.payload;
+      state.timeRemaining = countdownTime;
+      state.numberOfPairs = numberOfPairs;
     },
 
     makeMove: (state, action: PayloadAction<Move>) => {
@@ -96,6 +105,6 @@ const gameSlice = createSlice({
 
 export const { selectMistakes } = gameSlice.selectors;
 
-export const { start, tick, restart, makeMove } = gameSlice.actions;
+export const { start, updateSettings, tick, restart, makeMove } = gameSlice.actions;
 
 export default gameSlice.reducer;

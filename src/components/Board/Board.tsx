@@ -7,6 +7,7 @@ import Settings from "@/components/Settings";
 import Deck from "../Deck";
 import Card from "../Card";
 import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
+import Welcome from "../Welcome";
 
 interface BoardProps {
   deck?: string[];
@@ -80,7 +81,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
   if (status === "idle") {
     return (
       <div className="container">
-        <Settings deck={deck} />
+        <Welcome deck={deck} />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import { createSelector, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { makeMove, restart, start, type Card } from "./gameSlice";
+import { makeMove, restart, start, updateSettings, type Card } from "./gameSlice";
 
 export interface CardState {
   deck: Card[];
@@ -58,6 +58,10 @@ const cardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(start, (state, action) => {
+        const { numberOfPairs, deck } = action.payload;
+        state.deck = createBoardDeck(numberOfPairs, deck);
+      })
+      .addCase(updateSettings, (state, action) => {
         const { numberOfPairs, deck } = action.payload;
 
         state.deck = createBoardDeck(numberOfPairs, deck);

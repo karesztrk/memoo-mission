@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import "./Settings.css";
 import { type FC, type FormEvent } from "react";
-import { start } from "@/store/gameSlice";
+import { updateSettings } from "@/store/gameSlice";
 
 interface SettingsFormProps {
   deck?: string[];
@@ -15,68 +15,39 @@ const Settings: FC<SettingsFormProps> = ({ deck = [], numberOfPairs = 6, countdo
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
-    const name = data.get("name") as string | null;
     const pairs = data.get("pairs") as string | null;
     const time = data.get("time") as string | null;
-    if (!name || !pairs || !time || deck.length === 0) {
+    if (!pairs || !time || deck.length === 0) {
       return;
     }
-    const trimmedName = name.trim();
     const numberOfPairs = parseInt(pairs);
     const countdownTime = parseInt(time);
 
-    if (!trimmedName || isNaN(numberOfPairs) || isNaN(countdownTime)) {
+    if (isNaN(numberOfPairs) || isNaN(countdownTime)) {
       return;
     }
-    dispatch(start({ username: trimmedName, numberOfPairs, countdownTime, deck }));
+    dispatch(updateSettings({ numberOfPairs, countdownTime, deck }));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="settings-form">
-      <div className="form-header">
-        <h2>Game Settings</h2>
-      </div>
+    <form onSubmit={handleSubmit}>
+      <h2>Game Settings</h2>
 
-      <div className="form-group">
-        <label className="form-label">
-          Your Name
-          <input type="text" name="name" required className="form-input" placeholder="Enter your name" />
-        </label>
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">
+      <div>
+        <label>
           Number of Pairs (6-16)
-          <input
-            type="number"
-            name="pairs"
-            min="6"
-            max="16"
-            className="form-input"
-            defaultValue={numberOfPairs}
-            required
-          />
+          <input type="number" name="pairs" min="6" max="16" defaultValue={numberOfPairs} required />
         </label>
       </div>
 
-      <div className="form-group">
-        <label className="form-label">
+      <div>
+        <label>
           Time Limit (seconds)
-          <input
-            type="number"
-            name="time"
-            min="30"
-            max="300"
-            defaultValue={countdownTime}
-            className="form-input"
-            required
-          />
+          <input type="number" name="time" min="30" max="300" defaultValue={countdownTime} required />
         </label>
       </div>
 
-      <button type="submit" className="button">
-        Start Game
-      </button>
+      <button type="submit">Start Game</button>
     </form>
   );
 };
