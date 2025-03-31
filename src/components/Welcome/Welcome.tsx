@@ -36,8 +36,6 @@ const Welcome: FC<WelcomeProps> = ({ deck = [] }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Game Settings</h2>
-
       <label>
         Your Name
         <input type="text" name="name" required placeholder="Enter your name" />

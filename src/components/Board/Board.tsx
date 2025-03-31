@@ -1,4 +1,4 @@
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import "./Board.css";
 import { tick, restart, makeMove, selectMistakes } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
@@ -19,6 +19,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
   const cardState = useAppSelector((state) => state.card);
   const username = useAppSelector((state) => state.user.userName);
   const status = useAppSelector((state) => state.game.status);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const matches = matchedPairs({ card: cardState });
   const flipped = flippedCards({ card: cardState });
@@ -26,6 +27,20 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   const onPlayAgain = () => {
     dispatch(restart());
+  };
+
+  const onOpenSettings = () => {
+    setSettingsOpen(true);
+  };
+
+  const onCloseSettings = () => {
+    setSettingsOpen(false);
+  };
+
+  const onOverlayClick = (event: Event) => {
+    if (event.target === event.currentTarget) {
+      onCloseSettings();
+    }
   };
 
   const onCardClick = (cardId: number) => () => {
@@ -81,6 +96,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
   if (status === "idle") {
     return (
       <div className="container">
+        <h1>Welcome</h1>
         <Welcome deck={deck} />
       </div>
     );
@@ -88,8 +104,15 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   return (
     <div className="container">
+      <h1>Game</h1>
       <div className="game-container">
         <div className="game-board">
+          <button onClick={onOpenSettings} className="button">
+            Settings
+          </button>
+          <button onClick={onPlayAgain} className="button">
+            Restart
+          </button>
           <div className="stats-row">
             <div className="stat-item">
               <span className="stat-text">Player: {username}</span>
@@ -129,6 +152,22 @@ const Board: FC<BoardProps> = ({ deck }) => {
           </Deck>
         </div>
       </div>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
+      <dialog onClick={onOverlayClick} open={settingsOpen}>
+        <article>
+          <header>
+            <button aria-label="Close" rel="prev" onClick={onCloseSettings}></button>
+            <h3>Game Settings</h3>
+          </header>
+          <Settings deck={deck} />
+          <footer>
+            <button className="secondary" onClick={onCloseSettings}>
+              Cancel
+            </button>
+            <button onClick={onCloseSettings}>Confirm</button>
+          </footer>
+        </article>
+      </dialog>
     </div>
   );
 };

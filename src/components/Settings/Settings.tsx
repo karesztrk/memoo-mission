@@ -31,8 +31,6 @@ const Settings: FC<SettingsFormProps> = ({ deck = [], numberOfPairs = 6, countdo
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Game Settings</h2>
-
       <div>
         <label>
           Number of Pairs (6-16)
@@ -47,7 +45,7 @@ const Settings: FC<SettingsFormProps> = ({ deck = [], numberOfPairs = 6, countdo
         </label>
       </div>
 
-      <button type="submit">Start Game</button>
+      <button type="submit">Save settings</button>
     </form>
   );
 };
