@@ -17,24 +17,31 @@ export interface Card {
   matched: boolean;
 }
 
+export interface Move {
+  allMatched: boolean;
+  match: boolean;
+}
+
 export type GameStatus = "idle" | "playing" | "gameover";
 
 export interface GameState {
   cards: Card[];
   timeRemaining: number;
   elapsedTime: number;
-  countdownTime: number;
   numberOfPairs: number;
   status: GameStatus;
+  moves: number;
+  matches: number;
 }
 
 const initialState: GameState = {
   cards: [],
   numberOfPairs: MIN_PAIRS,
-  countdownTime: MIN_TIME,
-  timeRemaining: 60,
+  timeRemaining: MIN_TIME,
   elapsedTime: 0,
   status: "idle",
+  moves: 0,
+  matches: 0,
 };
 
 const gameSlice = createSlice({
@@ -47,12 +54,20 @@ const gameSlice = createSlice({
       state.numberOfPairs = numberOfPairs;
       state.elapsedTime = 0;
       state.status = "playing";
+      state.moves = 0;
+      state.matches = 0;
     },
 
-    makeMove: (state, action: PayloadAction<{ allMatched: boolean }>) => {
-      const { allMatched } = action.payload;
+    makeMove: (state, action: PayloadAction<Move>) => {
+      const { allMatched, match } = action.payload;
       if (allMatched) {
         state.status = "gameover";
+      }
+
+      state.moves += 1;
+
+      if (match) {
+        state.matches += 1;
       }
     },
 
@@ -69,9 +84,17 @@ const gameSlice = createSlice({
     restart: (state) => {
       state.status = "idle";
       state.elapsedTime = 0;
+      state.moves = 0;
+      state.matches = 0;
     },
   },
+
+  selectors: {
+    selectMistakes: (state: GameState) => state.moves - state.matches,
+  },
 });
+
+export const { selectMistakes } = gameSlice.selectors;
 
 export const { start, tick, restart, makeMove } = gameSlice.actions;
 

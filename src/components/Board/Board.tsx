@@ -1,6 +1,6 @@
 import { useEffect, type FC } from "react";
 import "./Board.css";
-import { tick, restart, makeMove } from "@/store/gameSlice";
+import { tick, restart, makeMove, selectMistakes } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import Settings from "@/components/Settings";
@@ -21,6 +21,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   const matches = matchedPairs({ card: cardState });
   const flipped = flippedCards({ card: cardState });
+  const mistakes = selectMistakes({ game: gameState });
 
   const onPlayAgain = () => {
     dispatch(restart());
@@ -32,15 +33,29 @@ const Board: FC<BoardProps> = ({ deck }) => {
     }
   };
 
+  const getStatus = () => {
+    const [firstId, secondId] = flipped;
+    const first = cardState.deck.find((card) => card.id === firstId);
+    const second = cardState.deck.find((card) => card.id === secondId);
+
+    const match = first?.value === second?.value;
+
+    const allMatched = cardState.deck.every((card) => card.matched || flipped.includes(card.id));
+    return {
+      match,
+      allMatched,
+    };
+  };
+
   useEffect(() => {
     if (flipped.length === 2 && status === "playing") {
-      const allMatched = cardState.deck.every((card) => card.matched || flipped.includes(card.id));
-      dispatch(makeMove({ allMatched }));
-      if (flipped.length === 2) {
-        setTimeout(() => {
-          dispatch(resetFlippedCards());
-        }, 1000);
-      }
+      const { allMatched, match } = getStatus();
+
+      dispatch(makeMove({ allMatched, match }));
+
+      setTimeout(() => {
+        dispatch(resetFlippedCards());
+      }, 1000);
     }
   }, [flipped, dispatch]);
 
@@ -87,6 +102,9 @@ const Board: FC<BoardProps> = ({ deck }) => {
               <span className="stat-text">
                 Matches: {matches} / {gameState.numberOfPairs}
               </span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-text">Mistakes: {mistakes}</span>
             </div>
           </div>
 
