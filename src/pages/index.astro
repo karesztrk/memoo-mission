@@ -1,10 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Game from "@/components/Game";
+
+const EMOJIS = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐙", "🦄"];
 ---
 
 <Layout>
   <section>
-    <Game client:load />
+    <Game client:load deck={EMOJIS} />
   </section>
 </Layout>

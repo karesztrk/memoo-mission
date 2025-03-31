@@ -4,11 +4,12 @@ import { type FC, type FormEvent } from "react";
 import { start } from "@/store/gameSlice";
 
 interface SettingsFormProps {
+  deck?: string[];
   numberOfPairs?: number;
   countdownTime?: number;
 }
 
-const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60 }) => {
+const Settings: FC<SettingsFormProps> = ({ deck = [], numberOfPairs = 6, countdownTime = 60 }) => {
   const dispatch = useAppDispatch();
 
   const handleSubmit = (e: FormEvent) => {
@@ -17,16 +18,17 @@ const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60
     const name = data.get("name") as string | null;
     const pairs = data.get("pairs") as string | null;
     const time = data.get("time") as string | null;
-    if (!name || !pairs || !time) {
+    if (!name || !pairs || !time || deck.length === 0) {
       return;
     }
     const trimmedName = name.trim();
     const numberOfPairs = parseInt(pairs);
     const countdownTime = parseInt(time);
+
     if (!trimmedName || isNaN(numberOfPairs) || isNaN(countdownTime)) {
       return;
     }
-    dispatch(start({ username: trimmedName, numberOfPairs, countdownTime }));
+    dispatch(start({ username: trimmedName, numberOfPairs, countdownTime, deck }));
   };
 
   return (

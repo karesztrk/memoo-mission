@@ -8,7 +8,11 @@ import Deck from "../Deck";
 import Card from "../Card";
 import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
 
-const Board: FC = () => {
+interface BoardProps {
+  deck?: string[];
+}
+
+const Board: FC<BoardProps> = ({ deck }) => {
   const dispatch = useAppDispatch();
   const gameState = useAppSelector((state) => state.game);
   const cardState = useAppSelector((state) => state.card);
@@ -61,7 +65,7 @@ const Board: FC = () => {
   if (status === "idle") {
     return (
       <div className="container">
-        <Settings />
+        <Settings deck={deck} />
       </div>
     );
   }

@@ -1,8 +1,6 @@
 import { createSelector, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { makeMove, restart, start, type Card } from "./gameSlice";
 
-const EMOJIS = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸", "🐙", "🦄"];
-
 export interface CardState {
   deck: Card[];
 }
@@ -11,20 +9,20 @@ const initialState: CardState = {
   deck: [],
 };
 
-const createDeck = (length: number): Card[] => {
+const createBoardDeck = (length: number, deck: string[]): Card[] => {
   const cards = Array.from({ length }, (_, i) => ({
-    value: EMOJIS[i],
+    value: deck[i],
   }));
 
-  const deck = [...cards, ...cards].map((card, index) => ({
+  const pairs = [...cards, ...cards].map((card, i) => ({
     ...card,
-    id: index,
+    id: i,
     flipped: false,
     matched: false,
   }));
 
   // Shuffle the deck
-  return deck.sort(() => Math.random() - 0.5);
+  return pairs.sort(() => Math.random() - 0.5);
 };
 
 const getFlipped = (deck: Card[]): number[] =>
@@ -60,9 +58,9 @@ const cardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(start, (state, action) => {
-        const { numberOfPairs } = action.payload;
+        const { numberOfPairs, deck } = action.payload;
 
-        state.deck = createDeck(numberOfPairs);
+        state.deck = createBoardDeck(numberOfPairs, deck);
       })
       .addCase(restart, (state) => {
         state.deck.forEach((card) => {

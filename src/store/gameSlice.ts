@@ -7,6 +7,7 @@ export interface GameSettings {
   countdownTime: number;
   numberOfPairs: number;
   username: string;
+  deck: string[];
 }
 
 export interface Card {
