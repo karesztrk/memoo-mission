@@ -17,24 +17,13 @@ const Board: FC<BoardProps> = ({ deck }) => {
   const dispatch = useAppDispatch();
   const gameState = useAppSelector((state) => state.game);
   const cardState = useAppSelector((state) => state.card);
-  const username = useAppSelector((state) => state.user.userName);
   const status = useAppSelector((state) => state.game.status);
-  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const matches = matchedPairs({ card: cardState });
   const flipped = flippedCards({ card: cardState });
-  const mistakes = selectMistakes({ game: gameState });
 
   const onPlayAgain = () => {
     dispatch(restart());
-  };
-
-  const onOpenSettings = () => {
-    setSettingsOpen(true);
-  };
-
-  const onCloseSettings = () => {
-    setSettingsOpen(false);
   };
 
   const onCardClick = (cardId: number) => () => {
@@ -81,12 +70,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
     return () => clearInterval(timer);
   }, [status, dispatch]);
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  };
-
   if (status === "idle") {
     return (
       <div className="container">
@@ -101,31 +84,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
       <h1>Game</h1>
       <div className="game-container">
         <div className="game-board">
-          <button onClick={onOpenSettings} className="button">
-            Settings
-          </button>
-          <button onClick={onPlayAgain} className="button">
-            Restart
-          </button>
-          <div className="stats-row">
-            <div className="stat-item">
-              <span className="stat-text">Player: {username}</span>
-            </div>
-          </div>
-          <div className="stats-row">
-            <div className="stat-item">
-              <span className="stat-text">Time: {formatTime(gameState.timeRemaining)}</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-text">
-                Matches: {matches} / {gameState.numberOfPairs}
-              </span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-text">Mistakes: {mistakes}</span>
-            </div>
-          </div>
-
           {status === "gameover" && (
             <div className="game-over">
               <h2>
@@ -146,7 +104,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
           </Deck>
         </div>
       </div>
-      <SettingsModal open={settingsOpen} onClose={onCloseSettings} deck={deck} />
     </div>
   );
 };

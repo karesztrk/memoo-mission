@@ -1,9 +1,8 @@
 import { type FC, type FormEvent } from "react";
 import Modal from "../Modal";
 import Settings from "./Settings";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { updateSettings } from "@/store/gameSlice";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { getStore } from "@/store/store";
 
 interface SettingsModalProps {
   deck?: string[];
@@ -12,8 +11,9 @@ interface SettingsModalProps {
 }
 
 const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => {
-  const dispatch = useAppDispatch();
-  const status = useAppSelector((state) => state.game.status);
+  const store = getStore();
+  const dispatch = store.dispatch;
+  const status = store.getState().game.status;
   const playing = status === "playing";
 
   const handleSubmit = (e: FormEvent) => {

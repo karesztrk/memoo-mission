@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, type Unsubscribe } from "@reduxjs/toolkit";
 import gameReducer from "./gameSlice";
 import userReducer from "./userSlice";
 import cardSlice from "./cardSlice";
@@ -33,7 +33,7 @@ export const getStore = (): Store => {
 /**
  * Subscribe to the global store and call the provided callback whenever the store changes.
  */
-export const subscribeToStore = <T>(selector: (state: RootState) => T, callback: (value: T) => void) => {
+export const subscribeToStore = <T>(selector: (state: RootState) => T, callback: (value: T) => void): Unsubscribe => {
   let previousState: unknown;
 
   return getStore().subscribe(() => {

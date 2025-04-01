@@ -1,7 +1,50 @@
-import { type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import "./Header.css";
+import { getStore, subscribeToStore } from "@/store/store";
+import { selectMistakes } from "@/store/gameSlice";
+import { formatTime } from "./Header.util";
+import SettingsModal from "../Settings/SettingsModal";
 
-const Header: FC = () => {
+interface HeaderProps {
+  deck?: string[];
+}
+
+const Header: FC<HeaderProps> = ({ deck }) => {
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [matches, setMatches] = useState(0);
+  const [mistakes, setMistakes] = useState(0);
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const username = getStore().getState().user.userName || "";
+
+  const onOpenSettings = () => {
+    setSettingsOpen(true);
+  };
+
+  const onCloseSettings = () => {
+    setSettingsOpen(false);
+  };
+
+  /**
+   * Subscribe to store changes.
+   */
+  useEffect(() => {
+    const unsubscribe = subscribeToStore(
+      (state) => state.game,
+      (state) => {
+        setTimeRemaining(state.timeRemaining);
+        setMatches(state.matches);
+
+        const mistakes = selectMistakes({ game: state });
+        setMistakes(mistakes);
+      },
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <header className="container">
       <nav>
@@ -48,8 +91,28 @@ const Header: FC = () => {
               <span className="visually-hidden">Memoo Mission</span>
             </a>
           </li>
+          <li>
+            <div> {formatTime(timeRemaining)}</div>
+            <div>{matches} matches</div>
+            <div>{mistakes} mistakes</div>
+          </li>
+          <li>
+            <button onClick={onOpenSettings} className="button">
+              Settings
+            </button>
+            {/* <button onClick={onPlayAgain} className="button"> */}
+            {/*   Restart */}
+            {/* </button> */}
+            <div>
+              <div>
+                <span>Player: {username}</span>
+              </div>
+            </div>
+          </li>
         </ul>
       </nav>
+
+      <SettingsModal open={settingsOpen} onClose={onCloseSettings} deck={deck} />
     </header>
   );
 };
