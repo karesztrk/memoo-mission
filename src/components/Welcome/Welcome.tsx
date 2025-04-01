@@ -24,6 +24,7 @@ const Welcome: FC<WelcomeProps> = ({ deck = [] }) => {
     if (!trimmedName) {
       return;
     }
+
     dispatch(
       start({
         username: trimmedName,
