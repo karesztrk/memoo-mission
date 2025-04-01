@@ -1,6 +1,6 @@
 import { useEffect, type FC } from "react";
 import "./Board.css";
-import { tick, restart, makeMove } from "@/store/gameSlice";
+import { tick, makeMove } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import Deck from "../Deck";
@@ -20,10 +20,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   const matches = matchedPairs({ card: cardState });
   const flipped = flippedCards({ card: cardState });
-
-  const onPlayAgain = () => {
-    dispatch(restart());
-  };
 
   const onCardClick = (cardId: number) => () => {
     if (status === "playing") {
@@ -79,27 +75,22 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   return (
     <div className="container">
-      <div className="game-container">
-        <div className="game-board">
-          {status === "gameover" && (
-            <div className="game-over">
-              <h2>
-                {matches === gameState.numberOfPairs ? "🎉 Congratulations! You won! 🎉" : "⏰ Time's up! Game Over ⏰"}
-              </h2>
-              <button onClick={onPlayAgain} className="button">
-                Play Again
-              </button>
-            </div>
-          )}
+      <div className="game-board">
+        {status === "gameover" && (
+          <div className="game-over">
+            <h2>
+              {matches === gameState.numberOfPairs ? "🎉 Congratulations! You won! 🎉" : "⏰ Time's up! Game Over ⏰"}
+            </h2>
+          </div>
+        )}
 
-          <Deck>
-            {cardState.deck.map((card) => (
-              <Card key={card.id} flipped={card.flipped} matched={card.matched} onClick={onCardClick(card.id)}>
-                {card.value}
-              </Card>
-            ))}
-          </Deck>
-        </div>
+        <Deck>
+          {cardState.deck.map((card) => (
+            <Card key={card.id} flipped={card.flipped} matched={card.matched} onClick={onCardClick(card.id)}>
+              {card.value}
+            </Card>
+          ))}
+        </Deck>
       </div>
     </div>
   );

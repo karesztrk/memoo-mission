@@ -135,7 +135,7 @@ const Header: FC<HeaderProps> = ({ deck }) => {
                 </button>
               </li>
               <li className="control">
-                <div>Player: {username}</div>
+                <span>Player: {username}</span>
               </li>
             </>
           )}

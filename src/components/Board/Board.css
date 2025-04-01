@@ -1,0 +1,7 @@
+.game-board {
+  background: var(--color-gray-light);
+
+  border-radius: 50px;
+  padding-block: 75px;
+  padding-inline: 70px;
+}
