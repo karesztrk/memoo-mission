@@ -14,7 +14,7 @@ const Header: FC<HeaderProps> = ({ deck }) => {
   const [matches, setMatches] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const [status, setStatus] = useState<GameStatus>("idle");
-  const playing = status === "playing";
+  const playing = status === "playing" || status === "gameover";
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const username = getStore().getState().user.userName || "";
@@ -99,15 +99,19 @@ const Header: FC<HeaderProps> = ({ deck }) => {
               <span className="visually-hidden">Memoo Mission</span>
             </a>
           </li>
-          <li>
+        </ul>
+        <ul>
+          <li className="stat">
             {playing && (
               <>
-                <div> {formatTime(timeRemaining)}</div>
-                <div>{matches} matches</div>
-                <div>{mistakes} mistakes</div>
+                <div className="score">{formatTime(timeRemaining)}</div>
+                <div className="matches stat-item">{matches} matches</div>
+                <div className="mistakes stat-item">{mistakes} mistakes</div>
               </>
             )}
           </li>
+        </ul>
+        <ul>
           <li>
             <button onClick={onOpenSettings} className="button">
               Settings

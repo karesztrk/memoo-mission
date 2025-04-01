@@ -1,3 +1,6 @@
 :root {
-  --pico-font-family: "Gilroy-Regular", sans-serif;
+  --pico-font-family: "Gilroy-Bold", sans-serif;
+  --color-brand: #ff3f56;
+  --color-gray-medium: #d5d5d5;
+  --color-border: var(--color-gray-medium);
 }

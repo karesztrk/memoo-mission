@@ -1,13 +1,12 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, type FC } from "react";
 import "./Board.css";
-import { tick, restart, makeMove, selectMistakes } from "@/store/gameSlice";
+import { tick, restart, makeMove } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import Deck from "../Deck";
 import Card from "../Card";
 import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
 import Welcome from "../Welcome";
-import SettingsModal from "../Settings/SettingsModal";
 
 interface BoardProps {
   deck?: string[];
@@ -73,7 +72,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
   if (status === "idle") {
     return (
       <div className="container">
-        <h1>Welcome</h1>
         <Welcome deck={deck} />
       </div>
     );
@@ -81,7 +79,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   return (
     <div className="container">
-      <h1>Game</h1>
       <div className="game-container">
         <div className="game-board">
           {status === "gameover" && (
