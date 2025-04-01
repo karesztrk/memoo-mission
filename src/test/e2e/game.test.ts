@@ -9,7 +9,7 @@ test.describe("Game", () => {
     const time = 30;
 
     await page.getByRole("textbox", { name: "Your Name" }).fill(name);
-    await page.getByRole("spinbutton", { name: "Number of Pairs (6-16)" }).fill(pairs.toString());
+    await page.getByRole("spinbutton", { name: "Number of Pairs" }).fill(pairs.toString());
     await page.getByRole("spinbutton", { name: "Time Limit (seconds)" }).fill(time.toString());
 
     const startButton = page.getByRole("button", { name: "Start Game" });

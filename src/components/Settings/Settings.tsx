@@ -1,39 +1,17 @@
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import "./Settings.css";
-import { type FC, type FormEvent } from "react";
-import { updateSettings } from "@/store/gameSlice";
+import { type FC, type ComponentPropsWithoutRef } from "react";
 
-interface SettingsFormProps {
-  deck?: string[];
+interface SettingsFormProps extends ComponentPropsWithoutRef<"form"> {
   numberOfPairs?: number;
   countdownTime?: number;
 }
 
-const Settings: FC<SettingsFormProps> = ({ deck = [], numberOfPairs = 6, countdownTime = 60 }) => {
-  const dispatch = useAppDispatch();
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const data = new FormData(e.target as HTMLFormElement);
-    const pairs = data.get("pairs") as string | null;
-    const time = data.get("time") as string | null;
-    if (!pairs || !time || deck.length === 0) {
-      return;
-    }
-    const numberOfPairs = parseInt(pairs);
-    const countdownTime = parseInt(time);
-
-    if (isNaN(numberOfPairs) || isNaN(countdownTime)) {
-      return;
-    }
-    dispatch(updateSettings({ numberOfPairs, countdownTime, deck }));
-  };
-
+const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <div>
         <label>
-          Number of Pairs (6-16)
+          Number of Pairs
           <input type="number" name="pairs" min="6" max="16" defaultValue={numberOfPairs} required />
         </label>
       </div>
@@ -44,9 +22,7 @@ const Settings: FC<SettingsFormProps> = ({ deck = [], numberOfPairs = 6, countdo
           <input type="number" name="time" min="30" max="300" defaultValue={countdownTime} required />
         </label>
       </div>
-
-      <button type="submit">Save settings</button>
-    </form>
+    </>
   );
 };
 

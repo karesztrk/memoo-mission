@@ -3,11 +3,11 @@ import "./Board.css";
 import { tick, restart, makeMove, selectMistakes } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import Settings from "@/components/Settings";
 import Deck from "../Deck";
 import Card from "../Card";
 import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
 import Welcome from "../Welcome";
+import SettingsModal from "../Settings/SettingsModal";
 
 interface BoardProps {
   deck?: string[];
@@ -35,12 +35,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   const onCloseSettings = () => {
     setSettingsOpen(false);
-  };
-
-  const onOverlayClick = (event: Event) => {
-    if (event.target === event.currentTarget) {
-      onCloseSettings();
-    }
   };
 
   const onCardClick = (cardId: number) => () => {
@@ -152,22 +146,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
           </Deck>
         </div>
       </div>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
-      <dialog onClick={onOverlayClick} open={settingsOpen}>
-        <article>
-          <header>
-            <button aria-label="Close" rel="prev" onClick={onCloseSettings}></button>
-            <h3>Game Settings</h3>
-          </header>
-          <Settings deck={deck} />
-          <footer>
-            <button className="secondary" onClick={onCloseSettings}>
-              Cancel
-            </button>
-            <button onClick={onCloseSettings}>Confirm</button>
-          </footer>
-        </article>
-      </dialog>
+      <SettingsModal open={settingsOpen} onClose={onCloseSettings} deck={deck} />
     </div>
   );
 };
