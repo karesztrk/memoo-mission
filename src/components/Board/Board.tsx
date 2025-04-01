@@ -68,7 +68,9 @@ const Board: FC<BoardProps> = ({ deck }) => {
   if (status === "idle") {
     return (
       <div className="container">
-        <Welcome deck={deck} />
+        <article>
+          <Welcome deck={deck} />
+        </article>
       </div>
     );
   }

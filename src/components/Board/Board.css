@@ -1,5 +1,10 @@
 .game-board {
-  background: var(--color-gray-light);
+  background-color: var(--color-gray-light);
+
+  @media only screen and (prefers-color-scheme: dark) {
+    background-color: var(--pico-card-background-color);
+    border: var(--pico-border-width) solid var(--pico-form-element-border-color);
+  }
 
   border-radius: 50px;
   padding-block: 75px;

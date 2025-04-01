@@ -2,21 +2,61 @@
   --_card-width: var(--card-width, 100px);
   --_card-height: var(--card-height, 150px);
   --_card-gap: 10px;
+  --_transition: 150ms;
+  --_transition-flip: 300ms;
+  --_shadow-strong: 0px 2px 5px 0px #00000040;
+  --_shadow-light: 0 2px 1px 0px rgba(0, 0, 0, 0.1);
   inline-size: var(--_card-width);
   block-size: var(--_card-height);
-  cursor: pointer;
   transform-style: preserve-3d;
-  transition: transform 0.3s ease;
   background-color: var(--pico-primary-inverse);
   border-radius: 10px;
-  box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--_shadow-light);
+  border: 1px solid var(--color-border);
+  transition:
+    box-shadow var(--_transition) ease-out,
+    transform var(--_transition) ease-out;
+
+  &:focus-visible {
+    box-shadow: var(--pico-box-shadow);
+  }
+
+  svg.back-image {
+    .cover,
+    .question-mark {
+      transition: fill var(--_transition) ease-out;
+    }
+    .cover {
+      fill: var(--color-gray-light);
+    }
+    .question-mark {
+      fill: var(--color-gray-dark);
+    }
+  }
+
+  &:hover {
+    box-shadow: var(--_shadow-strong);
+    svg.back-image {
+      .cover {
+        fill: #ebf5f3;
+      }
+      .question-mark {
+        fill: #b6e9de;
+      }
+    }
+  }
 
   &.flipped {
     transform: rotateY(180deg);
+    box-shadow: var(--_shadow-strong);
+
+    &:hover {
+      box-shadow: var(--_shadow-light);
+    }
 
     .card-inner {
-      background-color: var(--pico-contrast-background);
       transform: rotateY(0);
+      background-color: var(--color-gray-lightest);
     }
   }
   &.matched {
@@ -29,8 +69,7 @@
     margin: auto;
     inline-size: calc(var(--_card-width) - var(--_card-gap));
     block-size: calc(var(--_card-height) - var(--_card-gap));
-    border-radius: 30px;
-    background-color: var(--pico-secondary);
+    border-radius: 8px;
     display: grid;
     place-content: center;
     font-size: 2.25rem;
