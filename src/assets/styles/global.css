@@ -3,4 +3,6 @@
   --color-brand: #ff3f56;
   --color-gray-medium: #d5d5d5;
   --color-border: var(--color-gray-medium);
+  --color-icon-button: var(--color-gray-medium);
+  --pico-nav-element-spacing-vertical: 30px;
 }

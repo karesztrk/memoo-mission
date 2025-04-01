@@ -21,6 +21,8 @@
 }
 
 .stat {
+  --_padding-lg: 15px;
+  --_padding-sm: 4.5px;
   display: grid;
   align-items: center;
   grid-template-columns: 120px auto;
@@ -32,51 +34,69 @@
   &:before {
     display: none;
   }
-}
 
-.score {
-  grid-area: score;
-  justify-self: end;
-  font-weight: 900;
-  font-size: 3.25rem;
-  line-height: 1;
-  letter-spacing: 0%;
-  color: var(--color-brand);
-  padding-inline: 15px;
-}
-
-.matches {
-  grid-area: matches;
-  align-self: start;
-}
-
-.mistakes {
-  grid-area: mistakes;
-  align-self: end;
-}
-
-.stat-item {
-  font-weight: 700;
-  font-size: 1.125rem;
-  padding-inline: 15px;
-  leading-trim: Cap height;
-  line-height: 1;
-  letter-spacing: 0%;
-
-  border-inline-start: 1px solid var(--color-border);
-
-  &:first-of-type {
-    padding-block-end: 15px;
+  .score {
+    grid-area: score;
+    justify-self: end;
+    font-weight: 900;
+    font-size: 3.25rem;
+    line-height: 1;
+    letter-spacing: 0%;
+    color: var(--color-brand);
+    padding-inline: var(--_padding-lg);
   }
 
-  &:last-of-type {
-    padding-block-start: 15px;
-    padding-block-end: 4px;
+  .matches {
+    grid-area: matches;
+    align-self: start;
+  }
+
+  .mistakes {
+    grid-area: mistakes;
+    align-self: end;
+  }
+
+  .stat-item {
+    font-weight: 700;
+    font-size: 1.125rem;
+    padding-inline: var(--_padding-lg);
+    leading-trim: Cap height;
+    line-height: 1;
+    letter-spacing: 0%;
+
+    border-inline-start: 1px solid var(--color-border);
+
+    &:first-of-type {
+      padding-block-end: var(--_padding-lg);
+    }
+
+    &:last-of-type {
+      padding-block-start: var(--_padding-lg);
+      padding-block-end: var(--_padding-sm);
+    }
+
+    &:not(:last-of-type) {
+      border-block-end: 1px solid var(--color-border);
+      padding-block-end: var(--_padding-lg);
+      padding-block-start: var(--_padding-sm);
+    }
+  }
+}
+
+.control {
+  padding: 10px;
+
+  .icon-button {
+    background: none;
+    border: none;
+    color: var(--color-icon-button);
+  }
+
+  &:not(:first-of-type) {
+    padding-inline-start: 20px;
   }
 
   &:not(:last-of-type) {
-    border-block-end: 1px solid var(--color-border);
-    padding-block-end: 15px;
-    padding-block-start: 4px;
+    padding-inline-end: 20px;
   }
 }
