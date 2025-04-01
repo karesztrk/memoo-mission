@@ -29,6 +29,7 @@ export type GameStatus = "idle" | "playing" | "gameover";
 
 export interface GameState {
   cards: Card[];
+  countdownTime: number;
   timeRemaining: number;
   elapsedTime: number;
   numberOfPairs: number;
@@ -39,6 +40,7 @@ export interface GameState {
 
 const initialState: GameState = {
   cards: [],
+  countdownTime: DEFAULT_TIME,
   numberOfPairs: DEFAULT_PAIRS,
   timeRemaining: DEFAULT_TIME,
   elapsedTime: 0,
@@ -54,6 +56,7 @@ const gameSlice = createSlice({
     start: (state, action: PayloadAction<GameStart>) => {
       const { countdownTime, numberOfPairs } = action.payload;
       state.status = "playing";
+      state.countdownTime = countdownTime;
       state.timeRemaining = countdownTime;
       state.numberOfPairs = numberOfPairs;
       state.elapsedTime = 0;
@@ -63,6 +66,7 @@ const gameSlice = createSlice({
 
     updateSettings: (state, action: PayloadAction<GameSettings>) => {
       const { countdownTime, numberOfPairs } = action.payload;
+      state.countdownTime = countdownTime;
       state.timeRemaining = countdownTime;
       state.numberOfPairs = numberOfPairs;
     },
@@ -92,6 +96,7 @@ const gameSlice = createSlice({
 
     restart: (state) => {
       state.status = "idle";
+      state.timeRemaining = state.countdownTime;
       state.elapsedTime = 0;
       state.moves = 0;
       state.matches = 0;
