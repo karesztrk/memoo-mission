@@ -15,3 +15,21 @@
 .container {
   container: container / inline-size;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  main section {
+    view-transition-name: content;
+  }
+
+  header > nav svg.logo {
+    view-transition-name: logo;
+  }
+
+  header > nav .controls .settings-button {
+    view-transition-name: settings;
+  }
+}

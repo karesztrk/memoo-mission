@@ -13,6 +13,17 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
   const dispatch = useAppDispatch();
   const { numberOfPairs, timeRemaining } = useAppSelector((state) => state.game);
 
+  const dispatchStart = (username: string) => {
+    dispatch(
+      start({
+        username,
+        numberOfPairs,
+        countdownTime: timeRemaining,
+        deck,
+      }),
+    );
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
@@ -26,14 +37,14 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
       return;
     }
 
-    dispatch(
-      start({
-        username: trimmedName,
-        numberOfPairs,
-        countdownTime: timeRemaining,
-        deck,
-      }),
-    );
+    if (!document.startViewTransition) {
+      dispatchStart(trimmedName);
+      return;
+    }
+
+    // transition
+    document.startViewTransition(() => dispatchStart(trimmedName));
+
     onSubmitProp?.({ name });
   };
 
