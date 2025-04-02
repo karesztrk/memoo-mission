@@ -8,17 +8,19 @@ test.describe("Game", () => {
     const pairs = 6;
     const time = 30;
 
-    await page.getByRole("textbox", { name: "Your Name" }).fill(name);
+    await page.getByLabel("Settings").click();
+
     await page.getByRole("spinbutton", { name: "Number of Pairs" }).fill(pairs.toString());
     await page.getByRole("spinbutton", { name: "Time Limit (seconds)" }).fill(time.toString());
+    await page.getByRole("button", { name: "Save settings" }).click();
 
-    const startButton = page.getByRole("button", { name: "Start Game" });
-    await startButton.click();
+    await page.getByRole("textbox", { name: "Your Name" }).fill(name);
 
+    await page.getByRole("button", { name: "Start Game" }).click();
+
+    await expect(page.getByText("0 matches")).toBeVisible();
+    await expect(page.getByText("0 mistakes")).toBeVisible();
+    await expect(page.getByText("100 score")).toBeVisible();
     await expect(page.getByText(`Player: ${name}`)).toBeVisible();
-
-    const regexp = new RegExp(`Matches: 0 / ${pairs}`);
-    await expect(page.getByText(regexp)).toBeVisible();
-    await expect(page.getByText("Mistakes: 0")).toBeVisible();
   });
 });
