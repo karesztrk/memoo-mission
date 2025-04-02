@@ -10,3 +10,7 @@
   padding-block: 75px;
   padding-inline: 70px;
 }
+
+.game-over {
+  text-align: center;
+}

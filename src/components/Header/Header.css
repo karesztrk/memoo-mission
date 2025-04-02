@@ -1,9 +1,39 @@
 nav {
-  flex-wrap: wrap;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: auto minmax(50px, 1fr);
+  grid-template-areas:
+    "home controls"
+    "stats stats";
+
+  @container container (min-width: 510px) {
+    grid-template-columns: 1fr auto minmax(50px, 1fr);
+    grid-template-areas:
+      "blank home controls"
+      "stats stats stats";
+  }
+
+  @container container (min-width: 950px) {
+    grid-template-columns: 1fr auto minmax(50px, 1fr);
+    grid-template-areas: "home stats controls";
+  }
+
+  li {
+    /* Switch the padding to margin */
+    margin-block-start: var(--pico-nav-element-spacing-vertical);
+    padding: 0 var(--pico-nav-element-spacing-horizontal);
+  }
 }
 
 .home {
+  grid-area: home;
+
+  justify-self: start;
   font-size: 1.25rem;
+
+  .home-link {
+    padding-block-start: 0;
+  }
 }
 
 .logo {
@@ -24,13 +54,17 @@ nav {
   border: 0;
 }
 
+.stats {
+  grid-area: stats;
+}
+
 .stat {
   --_padding-lg: 15px;
   --_padding-sm: 4.5px;
   display: grid;
   align-items: center;
-  grid-template-columns: 120px auto;
-  grid-template-rows: auto auto;
+  grid-template-columns: minmax(170px, auto) 1fr;
+  grid-template-rows: repeat(2, 1fr);
   grid-template-areas:
     "score matches"
     "score mistakes";
@@ -87,12 +121,25 @@ nav {
   }
 }
 
+.controls {
+  grid-area: controls;
+  align-self: start;
+  justify-self: end;
+  flex-wrap: wrap;
+  justify-content: end;
+
+  @container container (min-width: 950px) {
+    align-self: revert;
+  }
+}
+
 .control {
   block-size: 44px;
   padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0;
 
   span {
     line-height: 1;
@@ -114,4 +161,8 @@ nav {
   &:not(:last-of-type) {
     padding-inline-end: 20px;
   }
+}
+
+.user {
+  text-align: right;
 }

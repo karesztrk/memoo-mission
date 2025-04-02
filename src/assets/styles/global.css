@@ -11,3 +11,7 @@
   --pico-nav-element-spacing-vertical: 30px;
   --color-card-front-bg: var(--cloli-gray-light);
 }
+
+.container {
+  container: container / inline-size;
+}
