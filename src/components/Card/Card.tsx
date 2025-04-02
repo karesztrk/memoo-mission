@@ -7,6 +7,8 @@ interface CardProps {
   onClick?: () => void;
 }
 
+const dev = import.meta.env.DEV;
+
 const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = false, onClick, children }) => {
   return (
     <button
@@ -14,6 +16,9 @@ const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = fal
       className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""}`}
       aria-pressed={flipped}
       aria-label={`${flipped ? "Flipped" : "Unflipped"} card`}
+      {...(dev && {
+        "data-testid": children,
+      })}
     >
       <div className="card-inner">
         <div className="front">{flipped && children}</div>
