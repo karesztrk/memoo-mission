@@ -1,0 +1,45 @@
+.user-menu {
+  grid-area: controls;
+  align-self: start;
+  justify-self: end;
+  flex-wrap: wrap;
+  justify-content: end;
+
+  @container container (min-width: 950px) {
+    align-self: revert;
+  }
+}
+
+.control {
+  block-size: 44px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+
+  span {
+    line-height: 1;
+
+    leading-trim: Cap height;
+  }
+
+  .icon-button {
+    background: none;
+    border: none;
+    color: var(--color-icon-button);
+  }
+
+  &:not(:first-of-type) {
+    padding-inline-start: 20px;
+    border-inline-start: 1px solid var(--color-border);
+  }
+
+  &:not(:last-of-type) {
+    padding-inline-end: 20px;
+  }
+}
+
+.user {
+  text-align: right;
+}

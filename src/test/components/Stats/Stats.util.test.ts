@@ -1,7 +1,7 @@
-import { formatTime } from "@/components/Header/Header.util";
+import { formatTime } from "@/components/Stats/Stats.util";
 import { describe, expect, test } from "vitest";
 
-describe("Header util", () => {
+describe("Stats util", () => {
   describe("formatTime", () => {
     test("formats seconds as minutes and seconds", () => {
       expect(formatTime(65)).toBe("1:05");

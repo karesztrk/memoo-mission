@@ -37,6 +37,8 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
       return;
     }
 
+    onSubmitProp?.({ name });
+
     if (!document.startViewTransition) {
       dispatchStart(trimmedName);
       return;
@@ -44,8 +46,6 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
 
     // transition
     document.startViewTransition(() => dispatchStart(trimmedName));
-
-    onSubmitProp?.({ name });
   };
 
   return (
