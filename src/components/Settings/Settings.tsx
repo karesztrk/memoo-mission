@@ -1,7 +1,7 @@
 import "./Settings.css";
-import { type FC, type ComponentPropsWithoutRef } from "react";
+import { type FC } from "react";
 
-interface SettingsFormProps extends ComponentPropsWithoutRef<"form"> {
+interface SettingsFormProps {
   numberOfPairs?: number;
   countdownTime?: number;
 }

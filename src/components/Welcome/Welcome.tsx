@@ -6,9 +6,10 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 
 interface WelcomeProps {
   deck?: string[];
+  onSubmit?: (data: { name: string }) => void;
 }
 
-const Welcome: FC<WelcomeProps> = ({ deck = [] }) => {
+const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
   const dispatch = useAppDispatch();
   const { numberOfPairs, timeRemaining } = useAppSelector((state) => state.game);
 
@@ -33,6 +34,7 @@ const Welcome: FC<WelcomeProps> = ({ deck = [] }) => {
         deck,
       }),
     );
+    onSubmitProp?.({ name });
   };
 
   return (

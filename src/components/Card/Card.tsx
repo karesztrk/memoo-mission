@@ -9,7 +9,12 @@ interface CardProps {
 
 const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = false, onClick, children }) => {
   return (
-    <button onClick={onClick} className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""}`}>
+    <button
+      onClick={onClick}
+      className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""}`}
+      aria-pressed={flipped}
+      aria-label={`${flipped ? "Flipped" : "Unflipped"} card`}
+    >
       <div className="card-inner">
         <div className="front">{flipped && children}</div>
         <div className="back">
