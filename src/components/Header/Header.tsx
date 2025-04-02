@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from "react";
 import "./Header.css";
 import { getStore, subscribeToStore } from "@/store/store";
-import { restart, selectMistakes, type GameStatus } from "@/store/gameSlice";
+import { restart, selectMistakes, selectScore, type GameStatus } from "@/store/gameSlice";
 import { formatTime } from "./Header.util";
 import SettingsModal from "../Settings/SettingsModal";
 
@@ -13,6 +13,7 @@ const Header: FC<HeaderProps> = ({ deck }) => {
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [matches, setMatches] = useState(0);
   const [mistakes, setMistakes] = useState(0);
+  const [score, setScore] = useState(0);
   const [status, setStatus] = useState<GameStatus>("idle");
   const playing = status === "playing" || status === "gameover";
 
@@ -45,6 +46,9 @@ const Header: FC<HeaderProps> = ({ deck }) => {
         setMistakes(mistakes);
 
         setStatus(state.status);
+
+        const score = selectScore({ game: state });
+        setScore(score);
       },
     );
 
@@ -104,9 +108,10 @@ const Header: FC<HeaderProps> = ({ deck }) => {
           <ul className="stats">
             <li className="stat">
               <>
-                <div className="score">{formatTime(timeRemaining)}</div>
+                <div className="time">{formatTime(timeRemaining)}</div>
                 <div className="matches stat-item">{matches} matches</div>
                 <div className="mistakes stat-item">{mistakes} mistakes</div>
+                <div className="score stat-item">{score} score</div>
               </>
             </li>
           </ul>

@@ -21,7 +21,7 @@ nav {
   li {
     /* Switch the padding to margin */
     margin-block-start: var(--pico-nav-element-spacing-vertical);
-    padding: 0 var(--pico-nav-element-spacing-horizontal);
+    padding-block-start: 0;
   }
 }
 
@@ -64,17 +64,17 @@ nav {
   display: grid;
   align-items: center;
   grid-template-columns: minmax(170px, auto) 1fr;
-  grid-template-rows: repeat(2, 1fr);
   grid-template-areas:
-    "score matches"
-    "score mistakes";
+    "time matches"
+    "time mistakes"
+    "time score";
 
   &:before {
     display: none;
   }
 
-  .score {
-    grid-area: score;
+  .time {
+    grid-area: time;
     justify-self: end;
     font-weight: 900;
     font-size: 3.25rem;
@@ -98,25 +98,22 @@ nav {
     font-weight: 700;
     font-size: 1.125rem;
     padding-inline: var(--_padding-lg);
+    padding-block: var(--_padding-sm);
     leading-trim: Cap height;
     line-height: 1;
     letter-spacing: 0%;
 
     border-inline-start: 1px solid var(--color-border);
 
-    &:first-of-type {
+    &:has(+ .stat-item) {
       padding-block-end: var(--_padding-lg);
     }
-
-    &:last-of-type {
+    & ~ .stat-item {
       padding-block-start: var(--_padding-lg);
-      padding-block-end: var(--_padding-sm);
     }
 
     &:not(:last-of-type) {
       border-block-end: 1px solid var(--color-border);
-      padding-block-end: var(--_padding-lg);
-      padding-block-start: var(--_padding-sm);
     }
   }
 }

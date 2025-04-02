@@ -2,6 +2,8 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const DEFAULT_PAIRS = 6;
 const DEFAULT_TIME = 60;
+const MATCH_SCORE = 100;
+const MISTAKE_SCORE = 10;
 
 export interface GameSettings {
   countdownTime: number;
@@ -105,10 +107,12 @@ const gameSlice = createSlice({
 
   selectors: {
     selectMistakes: (state: GameState) => state.moves - state.matches,
+    selectScore: (state: GameState) =>
+      MATCH_SCORE + state.matches * MATCH_SCORE - (state.moves - state.matches) * MISTAKE_SCORE,
   },
 });
 
-export const { selectMistakes } = gameSlice.selectors;
+export const { selectMistakes, selectScore } = gameSlice.selectors;
 
 export const { start, updateSettings, tick, restart, makeMove } = gameSlice.actions;
 
