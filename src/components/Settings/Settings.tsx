@@ -12,17 +12,17 @@ const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60
     <>
       <label>
         Number of Pairs
-        <input type="number" name="pairs" min="6" max="16" defaultValue={numberOfPairs} required />
+        <input type="number" name="pairs" min="6" max="16" defaultValue={numberOfPairs} required autoComplete="off" />
       </label>
 
       <label>
         Time Limit (seconds)
-        <input type="number" name="time" min="30" max="300" defaultValue={countdownTime} required />
+        <input type="number" name="time" min="30" max="300" defaultValue={countdownTime} required autoComplete="off" />
       </label>
 
       <label>
         Allowed guesses
-        <input type="number" name="guesses" min="2" max="16" defaultValue={allowedMoves} />
+        <input type="number" name="guesses" min="2" max="16" defaultValue={allowedMoves} autoComplete="off" />
       </label>
     </>
   );

@@ -13,7 +13,7 @@ interface SettingsModalProps {
 const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => {
   const store = getStore();
   const dispatch = store.dispatch;
-  const status = store.getState().game.status;
+  const { numberOfPairs, countdownTime, allowedMoves, status } = store.getState().game;
   const playing = status === "playing";
 
   const handleSubmit = (e: FormEvent) => {
@@ -43,7 +43,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
         <h3 id="game-settings-title">Game Settings</h3>
       </header>
       <form onSubmit={handleSubmit} method="dialog">
-        <Settings />
+        <Settings numberOfPairs={numberOfPairs} countdownTime={countdownTime} allowedMoves={allowedMoves} />
         <footer>
           <button type="submit" disabled={playing ? true : undefined}>
             Save settings
