@@ -2,13 +2,13 @@ import { test, expect } from "./fixtures";
 
 test.describe("Game", () => {
   test("game settings applied", async ({ page, game }) => {
-    // wait until JS is loaded
-    await page.goto("/", { waitUntil: "networkidle" });
+    // wait until JavaScript is loaded
+    await game.open();
     const name = "John Doe";
     const pairs = 6;
     const time = 30;
 
-    await page.getByLabel("Settings").click();
+    await page.getByLabel("Settings", { exact: true }).click();
 
     await page.getByRole("spinbutton", { name: "Number of Pairs" }).fill(pairs.toString());
     await page.getByRole("spinbutton", { name: "Time Limit (seconds)" }).fill(time.toString());
@@ -23,7 +23,7 @@ test.describe("Game", () => {
   });
 
   test("game win", async ({ page, game }) => {
-    await page.goto("/", { waitUntil: "networkidle" });
+    await game.open();
 
     await game.start("John Doe");
 

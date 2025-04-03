@@ -1,15 +1,15 @@
 import { useEffect, useState, type FC } from "react";
 import "./Stats.css";
-import { subscribeToStore } from "@/store/store";
+import { getStore, subscribeToStore } from "@/store/store";
 import { selectMistakes, selectScore, type GameStatus } from "@/store/gameSlice";
 import { formatTime } from "./Stats.util";
 
 const Stat: FC = () => {
-  const [timeRemaining, setTimeRemaining] = useState(0);
-  const [matches, setMatches] = useState(0);
-  const [mistakes, setMistakes] = useState(0);
-  const [score, setScore] = useState(0);
-  const [status, setStatus] = useState<GameStatus>("idle");
+  const [timeRemaining, setTimeRemaining] = useState(getStore().getState().game.timeRemaining);
+  const [matches, setMatches] = useState(getStore().getState().game.matches);
+  const [mistakes, setMistakes] = useState(getStore().getState().game.moves);
+  const [score, setScore] = useState(selectScore(getStore().getState()));
+  const [status, setStatus] = useState<GameStatus>(getStore().getState().game.status);
   const playing = status === "playing" || status === "gameover";
 
   /**

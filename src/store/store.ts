@@ -1,15 +1,19 @@
 import { configureStore, type Unsubscribe } from "@reduxjs/toolkit";
 import gameReducer from "./gameSlice";
 import userReducer from "./userSlice";
-import cardSlice from "./cardSlice";
+import cardReducer from "./cardSlice";
 
-export const store = configureStore({
-  reducer: {
-    game: gameReducer,
-    user: userReducer,
-    card: cardSlice,
-  },
-});
+export const setupStore = (preloadedState?: Partial<unknown>) =>
+  configureStore({
+    reducer: {
+      game: gameReducer,
+      user: userReducer,
+      card: cardReducer,
+    },
+    preloadedState,
+  });
+
+export const store = setupStore();
 
 export type Store = typeof store;
 export type RootState = ReturnType<typeof store.getState>;

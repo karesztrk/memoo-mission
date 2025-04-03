@@ -35,10 +35,10 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} aria-labelledby="game-settings-title">
       <header>
         <button aria-label="Close" rel="prev" onClick={onClose}></button>
-        <h3>Game Settings</h3>
+        <h3 id="game-settings-title">Game Settings</h3>
       </header>
       <form onSubmit={handleSubmit} method="dialog">
         <Settings />

@@ -2,7 +2,7 @@ import React, { type PropsWithChildren } from "react";
 import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { getStore, type RootState, type Store } from "@/store/store";
+import { setupStore, type RootState, type Store } from "@/store/store";
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -15,9 +15,14 @@ export function renderWithProviders(ui: React.ReactElement, extendedRenderOption
   const {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
-    store = getStore(),
+    store = setupStore(preloadedState),
     ...renderOptions
   } = extendedRenderOptions;
+
+  // Make the store available for islands
+  if (typeof window !== "undefined") {
+    window.__REDUX_STORE__ = store;
+  }
 
   const Wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>;
 

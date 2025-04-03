@@ -9,6 +9,7 @@ export default getViteConfig({
     exclude: ["**/node_modules/**", "**/e2e/**"],
     coverage: {
       include: ["src/components/**/*"],
+      exclude: ["**/*.astro"],
     },
   },
 });

@@ -1,12 +1,19 @@
-import { type FC, useState, type PropsWithChildren, type MouseEvent, useEffect } from "react";
+import {
+  type FC,
+  useState,
+  type PropsWithChildren,
+  type MouseEvent,
+  type ComponentPropsWithoutRef,
+  useEffect,
+} from "react";
 
-interface ModalProps {
+interface ModalProps extends ComponentPropsWithoutRef<"dialog"> {
   title?: string;
   onClose?: () => void;
   open?: boolean;
 }
 
-const Modal: FC<PropsWithChildren<ModalProps>> = ({ open: openProp = false, onClose, children }) => {
+const Modal: FC<PropsWithChildren<ModalProps>> = ({ open: openProp = false, onClose, children, ...rest }) => {
   const [open, setOpen] = useState(openProp);
 
   const onCloseSettings = () => {
@@ -14,8 +21,8 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({ open: openProp = false, onCl
     onClose?.();
   };
 
-  const onOverlayClick = (event: MouseEvent<HTMLDialogElement>) => {
-    if (event.target === event.currentTarget) {
+  const onOverlayClick = (e: MouseEvent<HTMLDialogElement>) => {
+    if (e.target === e.currentTarget) {
       onCloseSettings();
     }
   };
@@ -26,7 +33,7 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({ open: openProp = false, onCl
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-    <dialog onClick={onOverlayClick} open={open} onClose={onClose}>
+    <dialog {...rest} onClick={onOverlayClick} open={open} onClose={onClose}>
       <article>{children}</article>
     </dialog>
   );
