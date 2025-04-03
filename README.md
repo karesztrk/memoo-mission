@@ -6,13 +6,15 @@ In general, the project is built using the [Astro framework](https://astro.build
 
 ## Features
 
-- User settings
-  - Username
-- Game settings
-  - Elapsed time
-  - Number of pairs
-- Custom card faces
-- Game score
+- [x] User settings
+  - [x] Username
+- [x] Game settings
+  - [x] Time
+  - [x] Pair
+  - [x] Guesses (optional)
+- [ ] Custom card faces
+- [x] Game score
+- [x] Animations
 
 ## Design & UX
 
@@ -22,6 +24,12 @@ The final look and feel are bene:studio mockup, which you can find on [Figma](ht
 
 ```sh
 pnpm build
+```
+
+## Dev
+
+```sh
+pnpm dev
 ```
 
 ## Run
