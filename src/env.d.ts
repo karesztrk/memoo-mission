@@ -15,3 +15,9 @@ declare global {
     __REDUX_STORE__: Store;
   }
 }
+
+declare module "react" {
+  interface CSSProperties {
+    [key: `--${string}`]: string;
+  }
+}

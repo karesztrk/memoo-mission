@@ -87,8 +87,15 @@ const Board: FC<BoardProps> = ({ deck }) => {
         )}
 
         <Deck>
-          {cardState.deck.map((card) => (
-            <Card key={card.id} flipped={card.flipped} matched={card.matched} onClick={onCardClick(card.id)}>
+          {cardState.deck.map((card, i) => (
+            <Card
+              id={card.id.toString()}
+              order={i}
+              key={card.id}
+              flipped={card.flipped}
+              matched={card.matched}
+              onClick={onCardClick(card.id)}
+            >
               {card.value}
             </Card>
           ))}

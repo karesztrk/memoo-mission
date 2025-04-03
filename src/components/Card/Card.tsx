@@ -1,7 +1,9 @@
-import { type FC, type PropsWithChildren } from "react";
+import { useEffect, useState, type FC, type PropsWithChildren } from "react";
 import "./Card.css";
 
 interface CardProps {
+  id?: string;
+  order?: number;
   flipped?: boolean;
   matched?: boolean;
   onClick?: () => void;
@@ -9,16 +11,41 @@ interface CardProps {
 
 const dev = import.meta.env.DEV;
 
-const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = false, onClick, children }) => {
+const Card: FC<PropsWithChildren<CardProps>> = ({
+  id = "",
+  order = 0,
+  flipped = false,
+  matched = false,
+  onClick,
+  children,
+}) => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!document.startViewTransition) {
+      setReady(true);
+      return;
+    }
+
+    const timeout = order * 150;
+    setTimeout(() => {
+      // transition
+      document.startViewTransition(() => {
+        setReady(true);
+      });
+    }, timeout);
+  }, []);
   return (
     <button
       onClick={onClick}
-      className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""}`}
+      className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""} ${ready ? "ready" : ""}`}
       aria-pressed={flipped}
       aria-label={`${flipped ? "Flipped" : "Unflipped"} card`}
       {...(dev && {
         "data-testid": children,
       })}
+      style={{
+        "--transition-name": `card-${id}`,
+      }}
     >
       <div className="card-inner">
         <div className="front">{flipped && children}</div>
