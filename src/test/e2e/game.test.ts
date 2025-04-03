@@ -47,7 +47,7 @@ test.describe("Game", () => {
 
       await page.clock.runFor("30:00"); // Runs the clock for 30 minutes
 
-      await expect(page.getByText("Time's up! Game Over")).toBeVisible();
+      await expect(page.getByText("Game Over!")).toBeVisible();
     });
   });
 });

@@ -32,7 +32,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
     if (isNaN(numberOfPairs) || isNaN(countdownTime)) {
       return;
     }
-    dispatch(updateSettings({ numberOfPairs, countdownTime, deck, allowedGuesses }));
+    dispatch(updateSettings({ numberOfPairs, countdownTime, deck, allowedMoves: allowedGuesses }));
     onClose?.();
   };
 

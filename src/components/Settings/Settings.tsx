@@ -4,9 +4,10 @@ import { type FC } from "react";
 interface SettingsFormProps {
   numberOfPairs?: number;
   countdownTime?: number;
+  allowedMoves?: number;
 }
 
-const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60 }) => {
+const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60, allowedMoves }) => {
   return (
     <>
       <label>
@@ -21,7 +22,7 @@ const Settings: FC<SettingsFormProps> = ({ numberOfPairs = 6, countdownTime = 60
 
       <label>
         Allowed guesses
-        <input type="number" name="guesses" min="6" max="16" />
+        <input type="number" name="guesses" min="2" max="16" defaultValue={allowedMoves} />
       </label>
     </>
   );
