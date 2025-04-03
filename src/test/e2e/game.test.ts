@@ -36,4 +36,18 @@ test.describe("Game", () => {
 
     await expect(page.getByText("Congratulations! You won!")).toBeVisible();
   });
+
+  test.describe("game loose", () => {
+    test("timeout", async ({ page, game }) => {
+      await page.clock.install();
+
+      await game.open();
+
+      await game.start("John Doe");
+
+      await page.clock.runFor("30:00"); // Runs the clock for 30 minutes
+
+      await expect(page.getByText("Time's up! Game Over")).toBeVisible();
+    });
+  });
 });
