@@ -15,4 +15,20 @@ export class Game {
     await this.page.getByRole("textbox", { name: "Your Name" }).fill(name);
     await this.page.getByRole("button", { name: "Start Game" }).click();
   }
+
+  async openSettings() {
+    await this.page.getByLabel("Settings", { exact: true }).click();
+  }
+
+  async fillSettings({ pairs, time, allowed }: { pairs: number; time: number; allowed?: number }) {
+    await this.page.getByRole("spinbutton", { name: "Number of Pairs" }).fill(pairs.toString());
+    await this.page.getByRole("spinbutton", { name: "Time Limit (seconds)" }).fill(time.toString());
+    if (allowed !== undefined) {
+      await this.page.getByRole("spinbutton", { name: "Allowed guesses" }).fill(allowed.toString());
+    }
+  }
+
+  async submitSettings() {
+    await this.page.getByRole("button", { name: "Save settings" }).click();
+  }
 }
