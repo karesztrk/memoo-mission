@@ -29,7 +29,7 @@
     view-transition-name: logo;
   }
 
-  header > nav .controls .settings-button {
+  header > nav .user-menu .settings-button {
     view-transition-name: settings;
   }
 }
