@@ -21,16 +21,18 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
     const data = new FormData(e.target as HTMLFormElement);
     const pairs = data.get("pairs") as string | null;
     const time = data.get("time") as string | null;
+    const guesses = data.get("guesses") as string | null;
     if (!pairs || !time || deck.length === 0) {
       return;
     }
     const numberOfPairs = parseInt(pairs);
     const countdownTime = parseInt(time);
+    const allowedGuesses = guesses ? parseInt(guesses) : undefined;
 
     if (isNaN(numberOfPairs) || isNaN(countdownTime)) {
       return;
     }
-    dispatch(updateSettings({ numberOfPairs, countdownTime, deck }));
+    dispatch(updateSettings({ numberOfPairs, countdownTime, deck, allowedGuesses }));
     onClose?.();
   };
 

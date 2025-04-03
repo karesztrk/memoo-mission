@@ -9,5 +9,6 @@ describe("Settings", () => {
 
     expect(screen.getByRole("spinbutton", { name: "Number of Pairs" })).toHaveValue(6);
     expect(screen.getByRole("spinbutton", { name: "Time Limit (seconds)" })).toHaveValue(60);
+    expect(screen.getByRole("spinbutton", { name: "Allowed guesses" })).toHaveValue(null);
   });
 });
