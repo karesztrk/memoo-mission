@@ -1,7 +1,9 @@
-import { type FC, type PropsWithChildren } from "react";
+import { useEffect, useState, type FC, type PropsWithChildren } from "react";
 import "./Card.css";
+import { motion } from "motion/react";
 
 interface CardProps {
+  id?: string;
   flipped?: boolean;
   matched?: boolean;
   onClick?: () => void;
@@ -9,9 +11,24 @@ interface CardProps {
 
 const dev = import.meta.env.DEV;
 
-const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = false, onClick, children }) => {
+const transition = {
+  duration: 0.8,
+  delay: 0.5,
+  ease: [0, 0.71, 0.2, 1.01],
+};
+
+const Card: FC<PropsWithChildren<CardProps>> = ({ id, flipped = false, matched = false, onClick, children }) => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setReady(true);
+    }, 1000);
+  }, []);
   return (
-    <button
+    <motion.button
+      layout
+      layoutId={id}
+      transition={transition}
       onClick={onClick}
       className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""}`}
       aria-pressed={flipped}
@@ -19,6 +36,7 @@ const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = fal
       {...(dev && {
         "data-testid": children,
       })}
+      style={{ gridRow: ready ? "revert" : "1", gridColumn: ready ? "revert" : "1" }}
     >
       <div className="card-inner">
         <div className="front">{flipped && children}</div>
@@ -48,7 +66,7 @@ const Card: FC<PropsWithChildren<CardProps>> = ({ flipped = false, matched = fal
           )}
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 };
 
