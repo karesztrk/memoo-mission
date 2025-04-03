@@ -38,4 +38,22 @@ describe("Stats", () => {
     expect(screen.getByText("0 mistakes")).toBeInTheDocument();
     expect(screen.getByText("100 score")).toBeInTheDocument();
   });
+
+  test("renders allowed guesses", () => {
+    const userName = "John Doe";
+    const allowed = 10;
+    renderWithProviders(<Stat />, {
+      preloadedState: {
+        game: { ...gameState, status: "playing", allowedMoves: allowed },
+        user: { ...userState, userName },
+      },
+    });
+
+    expect(screen.getByText("1:00")).toBeInTheDocument();
+    expect(screen.getByText("0 matches")).toBeInTheDocument();
+    expect(screen.getByText("0 mistakes")).toBeInTheDocument();
+    expect(screen.getByText("100 score")).toBeInTheDocument();
+    const regex = new RegExp(`0/${allowed} guess`);
+    expect(screen.getByText(regex)).toBeInTheDocument();
+  });
 });

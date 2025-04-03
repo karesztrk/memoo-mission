@@ -26,13 +26,16 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
       return;
     }
 
-    const timeout = order * 150;
-    setTimeout(() => {
+    const ms = order * 150;
+    const timeout = setTimeout(() => {
       // transition
       document.startViewTransition(() => {
         setReady(true);
       });
-    }, timeout);
+    }, ms);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
   return (
     <button

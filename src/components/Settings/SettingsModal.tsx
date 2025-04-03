@@ -13,7 +13,7 @@ interface SettingsModalProps {
 const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => {
   const store = getStore();
   const dispatch = store.dispatch;
-  const status = store.getState().game.status;
+  const { numberOfPairs, countdownTime, allowedMoves, status } = store.getState().game;
   const playing = status === "playing";
 
   const handleSubmit = (e: FormEvent) => {
@@ -21,16 +21,18 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
     const data = new FormData(e.target as HTMLFormElement);
     const pairs = data.get("pairs") as string | null;
     const time = data.get("time") as string | null;
+    const guesses = data.get("guesses") as string | null;
     if (!pairs || !time || deck.length === 0) {
       return;
     }
     const numberOfPairs = parseInt(pairs);
     const countdownTime = parseInt(time);
+    const allowedGuesses = guesses ? parseInt(guesses) : undefined;
 
     if (isNaN(numberOfPairs) || isNaN(countdownTime)) {
       return;
     }
-    dispatch(updateSettings({ numberOfPairs, countdownTime, deck }));
+    dispatch(updateSettings({ numberOfPairs, countdownTime, deck, allowedMoves: allowedGuesses }));
     onClose?.();
   };
 
@@ -41,7 +43,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
         <h3 id="game-settings-title">Game Settings</h3>
       </header>
       <form onSubmit={handleSubmit} method="dialog">
-        <Settings />
+        <Settings numberOfPairs={numberOfPairs} countdownTime={countdownTime} allowedMoves={allowedMoves} />
         <footer>
           <button type="submit" disabled={playing ? true : undefined}>
             Save settings

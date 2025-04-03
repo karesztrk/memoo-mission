@@ -41,6 +41,9 @@ const Board: FC<BoardProps> = ({ deck }) => {
     };
   };
 
+  /**
+   * Turn the cards back eventually.
+   */
   useEffect(() => {
     if (flipped.length === 2 && status === "playing") {
       const { allMatched, match } = getStatus();
@@ -53,6 +56,9 @@ const Board: FC<BoardProps> = ({ deck }) => {
     }
   }, [flipped, dispatch]);
 
+  /**
+   * Countdown.
+   */
   useEffect(() => {
     if (status !== "playing") {
       return;
@@ -80,9 +86,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
       <div className="game-board">
         {status === "gameover" && (
           <div className="game-over">
-            <h2>
-              {matches === gameState.numberOfPairs ? "🎉 Congratulations! You won! 🎉" : "⏰ Time's up! Game Over ⏰"}
-            </h2>
+            <h2>{matches === gameState.numberOfPairs ? "🎉 Congratulations! You won! 🎉" : "👾🕹️ Game Over! 🎮💀"}</h2>
           </div>
         )}
 

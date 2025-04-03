@@ -32,16 +32,20 @@
   border-radius: 10px;
   box-shadow: var(--_shadow-light);
   border: 1px solid var(--color-border);
+  transition:
+    box-shadow var(--_transition) ease-out,
+    transform var(--_transition) var(--_flip-easing);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   @media (prefers-reduced-motion: no-preference) {
     view-transition-name: var(--transition-name);
-    grid-row: 1;
-    grid-column: 1;
-
-    transition:
-      box-shadow var(--_transition) ease-out,
-      transform var(--_transition) var(--_flip-easing);
   }
+
+  grid-row: 1;
+  grid-column: 1;
 
   &.ready {
     grid-row: auto;

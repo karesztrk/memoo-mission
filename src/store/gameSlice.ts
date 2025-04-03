@@ -8,6 +8,7 @@ const MISTAKE_SCORE = 10;
 export interface GameSettings {
   countdownTime: number;
   numberOfPairs: number;
+  allowedMoves?: number;
   deck: string[];
 }
 
@@ -35,6 +36,7 @@ export interface GameState {
   timeRemaining: number;
   elapsedTime: number;
   numberOfPairs: number;
+  allowedMoves?: number;
   status: GameStatus;
   moves: number;
   matches: number;
@@ -56,21 +58,23 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     start: (state, action: PayloadAction<GameStart>) => {
-      const { countdownTime, numberOfPairs } = action.payload;
+      const { countdownTime, numberOfPairs, allowedMoves } = action.payload;
       state.status = "playing";
       state.countdownTime = countdownTime;
       state.timeRemaining = countdownTime;
       state.numberOfPairs = numberOfPairs;
+      state.allowedMoves = allowedMoves;
       state.elapsedTime = 0;
       state.moves = 0;
       state.matches = 0;
     },
 
     updateSettings: (state, action: PayloadAction<GameSettings>) => {
-      const { countdownTime, numberOfPairs } = action.payload;
+      const { countdownTime, numberOfPairs, allowedMoves } = action.payload;
       state.countdownTime = countdownTime;
       state.timeRemaining = countdownTime;
       state.numberOfPairs = numberOfPairs;
+      state.allowedMoves = allowedMoves;
     },
 
     makeMove: (state, action: PayloadAction<Move>) => {
@@ -80,6 +84,10 @@ const gameSlice = createSlice({
       }
 
       state.moves += 1;
+
+      if (state.allowedMoves !== undefined && !match && state.moves >= state.allowedMoves) {
+        state.status = "gameover";
+      }
 
       if (match) {
         state.matches += 1;

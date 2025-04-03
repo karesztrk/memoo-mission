@@ -11,7 +11,7 @@ interface WelcomeProps {
 
 const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
   const dispatch = useAppDispatch();
-  const { numberOfPairs, timeRemaining } = useAppSelector((state) => state.game);
+  const { numberOfPairs, timeRemaining, allowedMoves } = useAppSelector((state) => state.game);
 
   const dispatchStart = (username: string) => {
     dispatch(
@@ -20,6 +20,7 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
         numberOfPairs,
         countdownTime: timeRemaining,
         deck,
+        allowedMoves,
       }),
     );
   };
