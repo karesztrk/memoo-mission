@@ -77,6 +77,7 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
       style={{
         "--transition-name": `card-${id}`,
       }}
+      tabIndex={matched ? -1 : 0}
     >
       <span className="magic">
         <span ref={starRef} className="magic-star">
