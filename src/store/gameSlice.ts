@@ -53,13 +53,28 @@ const initialState: GameState = {
   matches: 0,
 };
 
+const statusMachine: Record<GameStatus, Record<string, GameStatus>> = {
+  idle: {
+    start: "playing",
+  },
+  playing: {
+    allMatched: "gameover",
+    outOfMoves: "gameover",
+    timeout: "gameover",
+    restart: "idle",
+  },
+  gameover: {
+    restart: "idle",
+  },
+};
+
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
     start: (state, action: PayloadAction<GameStart>) => {
       const { countdownTime, numberOfPairs, allowedMoves } = action.payload;
-      state.status = "playing";
+      state.status = statusMachine[state.status].start;
       state.countdownTime = countdownTime;
       state.timeRemaining = countdownTime;
       state.numberOfPairs = numberOfPairs;
@@ -80,13 +95,17 @@ const gameSlice = createSlice({
     makeMove: (state, action: PayloadAction<Move>) => {
       const { allMatched, match } = action.payload;
       if (allMatched) {
-        state.status = "gameover";
+        state.status = statusMachine[state.status].allMatched;
       }
 
       state.moves += 1;
 
-      if (state.allowedMoves !== undefined && !match && state.moves >= state.allowedMoves) {
-        state.status = "gameover";
+      if (
+        state.allowedMoves !== undefined &&
+        !match &&
+        state.moves >= state.allowedMoves
+      ) {
+        state.status = statusMachine[state.status].outOfMoves;
       }
 
       if (match) {
@@ -100,12 +119,12 @@ const gameSlice = createSlice({
         state.elapsedTime += 1;
       }
       if (state.timeRemaining === 0) {
-        state.status = "gameover";
+        state.status = statusMachine[state.status].timeout;
       }
     },
 
     restart: (state) => {
-      state.status = "idle";
+      state.status = statusMachine[state.status].restart;
       state.timeRemaining = state.countdownTime;
       state.elapsedTime = 0;
       state.moves = 0;
@@ -116,12 +135,15 @@ const gameSlice = createSlice({
   selectors: {
     selectMistakes: (state: GameState) => state.moves - state.matches,
     selectScore: (state: GameState) =>
-      MATCH_SCORE + state.matches * MATCH_SCORE - (state.moves - state.matches) * MISTAKE_SCORE,
+      MATCH_SCORE +
+      state.matches * MATCH_SCORE -
+      (state.moves - state.matches) * MISTAKE_SCORE,
   },
 });
 
 export const { selectMistakes, selectScore } = gameSlice.selectors;
 
-export const { start, updateSettings, tick, restart, makeMove } = gameSlice.actions;
+export const { start, updateSettings, tick, restart, makeMove } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;
