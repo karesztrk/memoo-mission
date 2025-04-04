@@ -12,9 +12,10 @@ In general, the project is built using the [Astro framework](https://astro.build
   - [x] Time
   - [x] Pair
   - [x] Guesses (optional)
-- [ ] Custom card faces
+- [x] Custom card faces (from file)
 - [x] Game score
 - [x] Animations
+- [x] Light / Dark mode
 
 ## Design & UX
 

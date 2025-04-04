@@ -10,7 +10,7 @@
     "astro": "astro",
     "test": "vitest run --coverage",
     "test-watch": "vitest",
-    "pretty": "biome format --write .",
+    "pretty": "biome format --write ./src",
     "lint": "biome lint ./src",
     "e2e": "playwright test"
   },

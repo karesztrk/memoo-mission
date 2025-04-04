@@ -18,6 +18,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
+    /* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
     navigation: auto;
   }
 

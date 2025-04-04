@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import "./Game.css";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";

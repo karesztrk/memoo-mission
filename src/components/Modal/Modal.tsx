@@ -13,7 +13,12 @@ interface ModalProps extends ComponentPropsWithoutRef<"dialog"> {
   open?: boolean;
 }
 
-const Modal: FC<PropsWithChildren<ModalProps>> = ({ open: openProp = false, onClose, children, ...rest }) => {
+const Modal: FC<PropsWithChildren<ModalProps>> = ({
+  open: openProp = false,
+  onClose,
+  children,
+  ...rest
+}) => {
   const [open, setOpen] = useState(openProp);
 
   const onCloseSettings = () => {

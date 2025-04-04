@@ -37,7 +37,10 @@ export const getStore = (): Store => {
 /**
  * Subscribe to the global store and call the provided callback whenever the store changes.
  */
-export const subscribeToStore = <T>(selector: (state: RootState) => T, callback: (value: T) => void): Unsubscribe => {
+export const subscribeToStore = <T>(
+  selector: (state: RootState) => T,
+  callback: (value: T) => void,
+): Unsubscribe => {
   let previousState: unknown;
 
   return getStore().subscribe(() => {
