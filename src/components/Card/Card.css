@@ -25,6 +25,7 @@
     0.99 59.1%,
     1
   );
+  position: relative;
   inline-size: var(--_card-width);
   block-size: var(--_card-height);
   transform-style: preserve-3d;
@@ -32,8 +33,9 @@
   border-radius: 10px;
   box-shadow: var(--_shadow-light);
   border: 1px solid var(--color-border);
-  transition: box-shadow var(--_transition) ease-out, transform var(--_transition)
-    var(--_flip-easing);
+  transition:
+    box-shadow var(--_transition) ease-out,
+    transform var(--_transition) var(--_flip-easing);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -72,10 +74,10 @@
     box-shadow: var(--_shadow-strong);
     svg.back-image {
       .cover {
-        fill: #ebf5f3;
+        fill: var(--color-green-light);
       }
       .question-mark {
-        fill: #b6e9de;
+        fill: var(--color-green);
       }
     }
   }
@@ -94,7 +96,7 @@
     }
   }
   &.matched {
-    opacity: 0.5;
+    pointer-events: none;
   }
 
   .card-inner {
@@ -107,5 +109,34 @@
     display: grid;
     place-content: center;
     font-size: 2.25rem;
+  }
+
+  .magic {
+    .magic-star {
+      --_size: clamp(20px, 1.5vw, 30px);
+
+      animation: scale 700ms ease forwards;
+      display: block;
+      height: var(--_size);
+      left: var(--star-left);
+      position: absolute;
+      top: var(--star-top);
+      width: var(--_size);
+
+      @media (prefers-reduced-motion: reduce) {
+        display: none;
+      }
+
+      & > svg {
+        animation:
+          rotate 1000ms linear infinite,
+          colorful 1000ms linear infinite;
+        display: block;
+
+        & > path {
+          fill: var(--color-brand);
+        }
+      }
+    }
   }
 }
