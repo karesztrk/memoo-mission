@@ -57,3 +57,19 @@
     transform: rotate(180deg);
   }
 }
+
+@property --hue {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@keyframes colorful {
+  from {
+    --hue: 0deg;
+  }
+
+  to {
+    --hue: 100deg;
+  }
+}

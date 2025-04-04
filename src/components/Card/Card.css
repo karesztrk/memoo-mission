@@ -134,7 +134,7 @@
         display: block;
 
         & > path {
-          fill: var(--color-brand);
+          fill: hsl(var(--hue), 86%, 55%);
         }
       }
     }
