@@ -38,5 +38,9 @@
     "playwright": "^1.51.1",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
   }
 }

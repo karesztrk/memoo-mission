@@ -35,6 +35,8 @@ pnpm dev
 
 ## Run
 
+### Local
+
 To serve the application, execute the following script. It will start the server on \_port 3000 by default.
 
 ```sh
@@ -43,6 +45,17 @@ serve ./dist
 ```
 
 For more information visit [Astro docs](https://docs.astro.build/en/guides/integrations-guide/node/).
+
+### Docker
+
+Build a Docker image (prefer [Buildx](https://docs.docker.com/build/concepts/overview/#buildx)) from the `Dockerfile`. Start a new container from the build image.
+
+```sh
+# install dockerx
+docker build -t memoo-mission .
+docker run --name memoo-mission -p 80:80 -d memoo-mission
+# visit http://localhost:80/
+```
 
 ## Test
 
