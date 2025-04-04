@@ -7,9 +7,18 @@ import userEvent from "@testing-library/user-event";
 describe("SettingsModal", () => {
   test("closed dialog", async () => {
     renderWithProviders(<SettingsModal />);
-    expect(screen.getByRole("spinbutton", { name: "Number of Pairs", hidden: true })).not.toBeVisible();
-    expect(screen.getByRole("spinbutton", { name: "Time Limit (seconds)", hidden: true })).not.toBeVisible();
-    expect(screen.getByRole("spinbutton", { name: "Allowed guesses", hidden: true })).not.toBeVisible();
+    expect(
+      screen.getByRole("spinbutton", { name: "Number of Pairs", hidden: true }),
+    ).not.toBeVisible();
+    expect(
+      screen.getByRole("spinbutton", {
+        name: "Time Limit (seconds)",
+        hidden: true,
+      }),
+    ).not.toBeVisible();
+    expect(
+      screen.getByRole("spinbutton", { name: "Allowed guesses", hidden: true }),
+    ).not.toBeVisible();
   });
 
   test("light dismiss", async () => {

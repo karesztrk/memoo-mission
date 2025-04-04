@@ -94,7 +94,7 @@ const cardSlice = createSlice({
   selectors: {
     matchedPairs: createSelector(
       (sliceState: CardState) => sliceState.deck,
-      (value) => value.filter((card) => card.matched).reduce((acc) => (acc += 1), 0) / 2,
+      (value) => value.filter((card) => card.matched).reduce((acc) => acc + 1, 0) / 2,
     ),
     flippedCards: createSelector(
       (sliceState: CardState) => sliceState.deck,

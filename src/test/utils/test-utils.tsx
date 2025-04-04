@@ -1,4 +1,5 @@
-import React, { type PropsWithChildren } from "react";
+import type React from "react";
+import type { PropsWithChildren } from "react";
 import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
 import { Provider } from "react-redux";
@@ -11,7 +12,10 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   store?: Store;
 }
 
-export function renderWithProviders(ui: React.ReactElement, extendedRenderOptions: ExtendedRenderOptions = {}) {
+export function renderWithProviders(
+  ui: React.ReactElement,
+  extendedRenderOptions: ExtendedRenderOptions = {},
+) {
   const {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
@@ -24,7 +28,9 @@ export function renderWithProviders(ui: React.ReactElement, extendedRenderOption
     window.__REDUX_STORE__ = store;
   }
 
-  const Wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>;
+  const Wrapper = ({ children }: PropsWithChildren) => (
+    <Provider store={store}>{children}</Provider>
+  );
 
   // Return an object with the store and all of RTL's query functions
   return {

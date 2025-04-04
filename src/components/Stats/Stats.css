@@ -44,7 +44,6 @@
     font-size: 1.125rem;
     padding-inline: var(--_padding-lg);
     padding-block: var(--_padding-sm);
-    leading-trim: Cap height;
     line-height: 1;
     letter-spacing: 0%;
 

@@ -26,8 +26,12 @@ describe("Board", () => {
   test("renders main idle elements", async () => {
     renderWithProviders(<Board />);
 
-    expect(screen.getByRole("textbox", { name: "Your Name" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Start Game" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("textbox", { name: "Your Name" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Start Game" }),
+    ).toBeInTheDocument();
   });
 
   test("renders main playing elements", async () => {
@@ -59,10 +63,12 @@ describe("Board", () => {
       },
     });
 
-    expect(screen.getAllByRole("button", { name: "Unflipped card" }).length).toBe(deck.length);
+    expect(
+      screen.getAllByRole("button", { name: "Unflipped card" }).length,
+    ).toBe(deck.length);
 
     for (const card of deck) {
-      expect(screen.getByTestId(card.value)).toHaveTextContent("");
+      expect(screen.getByTestId(card.value)).toHaveTextContent("Card back");
     }
   });
 
@@ -88,7 +94,9 @@ describe("Board", () => {
       },
     ];
 
-    const flipped = deck.filter((card) => card.flipped).reduce((acc) => (acc += 1), 0);
+    const flipped = deck
+      .filter((card) => card.flipped)
+      .reduce((acc) => acc + 1, 0);
 
     renderWithProviders(<Board />, {
       preloadedState: {
@@ -98,10 +106,14 @@ describe("Board", () => {
       },
     });
 
-    expect(screen.getAllByRole("button", { name: "Unflipped card" }).length).toBe(deck.length - flipped);
+    expect(
+      screen.getAllByRole("button", { name: "Unflipped card" }).length,
+    ).toBe(deck.length - flipped);
 
     for (const card of deck) {
-      expect(screen.getByTestId(card.value)).toHaveTextContent(card.flipped ? card.value : "");
+      expect(screen.getByTestId(card.value)).toHaveTextContent(
+        card.flipped ? card.value : "Card back",
+      );
     }
   });
 });

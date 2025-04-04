@@ -1,4 +1,4 @@
-import { type Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 export class Game {
   page: Page;
@@ -20,7 +20,15 @@ export class Game {
     await this.page.getByLabel("Settings", { exact: true }).click();
   }
 
-  async fillSettings({ pairs, time, allowed }: { pairs: number; time: number; allowed?: number }) {
+  async fillSettings({
+    pairs,
+    time,
+    allowed,
+  }: {
+    pairs: number;
+    time: number;
+    allowed?: number;
+  }) {
     await this.page.getByRole("spinbutton", { name: "Number of Pairs" }).fill(pairs.toString());
     await this.page.getByRole("spinbutton", { name: "Time Limit (seconds)" }).fill(time.toString());
     if (allowed !== undefined) {

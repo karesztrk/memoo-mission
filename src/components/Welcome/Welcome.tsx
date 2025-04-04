@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import "./Welcome.css";
-import { type FC, type FormEvent } from "react";
+import type { FC, FormEvent } from "react";
 import { start } from "@/store/gameSlice";
 import { useAppSelector } from "@/hooks/useAppSelector";
 

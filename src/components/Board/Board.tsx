@@ -5,7 +5,12 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import Deck from "../Deck";
 import Card from "../Card";
-import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
+import {
+  flipCard,
+  flippedCards,
+  matchedPairs,
+  resetFlippedCards,
+} from "@/store/cardSlice";
 import Welcome from "../Welcome";
 
 interface BoardProps {
@@ -34,7 +39,9 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
     const match = first?.value === second?.value;
 
-    const allMatched = cardState.deck.every((card) => card.matched || flipped.includes(card.id));
+    const allMatched = cardState.deck.every(
+      (card) => card.matched || flipped.includes(card.id),
+    );
     return {
       match,
       allMatched,
@@ -86,7 +93,11 @@ const Board: FC<BoardProps> = ({ deck }) => {
       <div className="game-board">
         {status === "gameover" && (
           <div className="game-over">
-            <h2>{matches === gameState.numberOfPairs ? "🎉 Congratulations! You won! 🎉" : "👾🕹️ Game Over! 🎮💀"}</h2>
+            <h2>
+              {matches === gameState.numberOfPairs
+                ? "🎉 Congratulations! You won! 🎉"
+                : "👾🕹️ Game Over! 🎮💀"}
+            </h2>
           </div>
         )}
 

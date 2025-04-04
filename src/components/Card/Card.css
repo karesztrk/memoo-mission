@@ -32,9 +32,8 @@
   border-radius: 10px;
   box-shadow: var(--_shadow-light);
   border: 1px solid var(--color-border);
-  transition:
-    box-shadow var(--_transition) ease-out,
-    transform var(--_transition) var(--_flip-easing);
+  transition: box-shadow var(--_transition) ease-out, transform var(--_transition)
+    var(--_flip-easing);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
