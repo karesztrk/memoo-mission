@@ -6,6 +6,7 @@
     minmax(min(100%, var(--card-width)), 1fr)
   );
   gap: 10px;
+  justify-items: center;
 
   @container container (min-width: 950px) {
     gap: 20px;

@@ -15,7 +15,7 @@
     padding-inline: 55px;
   }
 
-  @container container (min-width: 510px) {
+  @container container (min-width: 700px) {
     padding-block: 75px;
     padding-inline: 70px;
   }
