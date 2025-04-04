@@ -1,6 +1,8 @@
 :root {
   --pico-font-family: "Gilroy-Bold", sans-serif;
   --color-brand: #ff3f56;
+  --color-green-light: #ebf5f3;
+  --color-green: #b6e9de;
   --color-gray-lightest: #dcdcdc1a;
   --color-gray-light: #f5f5f5;
   --color-gray-medium: #d5d5d5;
@@ -32,5 +34,26 @@
 
   header > nav .user-menu .settings-button {
     view-transition-name: settings;
+  }
+}
+
+@keyframes scale {
+  from,
+  to {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
   }
 }
