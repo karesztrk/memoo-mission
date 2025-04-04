@@ -35,8 +35,7 @@ describe("SettingsModal", () => {
   test("submit settings", async () => {
     const onClose = vitest.fn();
     const user = userEvent.setup();
-    const deck = ["A", "B", "C"];
-    renderWithProviders(<SettingsModal open onClose={onClose} deck={deck} />);
+    renderWithProviders(<SettingsModal open onClose={onClose} />);
 
     await user.click(screen.getByRole("button", { name: "Save settings" }));
 

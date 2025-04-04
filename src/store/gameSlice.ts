@@ -9,7 +9,6 @@ export interface GameSettings {
   countdownTime: number;
   numberOfPairs: number;
   allowedMoves?: number;
-  deck: string[];
 }
 
 export interface GameStart extends GameSettings {

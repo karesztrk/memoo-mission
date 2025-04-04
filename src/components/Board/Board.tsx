@@ -8,11 +8,7 @@ import Card from "../Card";
 import { flipCard, flippedCards, matchedPairs, resetFlippedCards } from "@/store/cardSlice";
 import Welcome from "../Welcome";
 
-interface BoardProps {
-  deck?: string[];
-}
-
-const Board: FC<BoardProps> = ({ deck }) => {
+const Board: FC = () => {
   const dispatch = useAppDispatch();
   const gameState = useAppSelector((state) => state.game);
   const cardState = useAppSelector((state) => state.card);
@@ -75,7 +71,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
     return (
       <div className="container">
         <article>
-          <Welcome deck={deck} />
+          <Welcome />
         </article>
       </div>
     );

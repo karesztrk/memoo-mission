@@ -2,11 +2,13 @@ import { createSelector, createSlice, type PayloadAction } from "@reduxjs/toolki
 import { makeMove, restart, start, updateSettings, type Card } from "./gameSlice";
 
 export interface CardState {
+  faces: string[];
   deck: Card[];
 }
 
 const initialState: CardState = {
   deck: [],
+  faces: [],
 };
 
 const createBoardDeck = (length: number, deck: string[]): Card[] => {
@@ -58,13 +60,14 @@ const cardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(start, (state, action) => {
-        const { numberOfPairs, deck } = action.payload;
-        state.deck = createBoardDeck(numberOfPairs, deck);
+        const { numberOfPairs } = action.payload;
+        // eslint-disable-next-line
+        console.log(state);
+        state.deck = createBoardDeck(numberOfPairs, state.faces);
       })
       .addCase(updateSettings, (state, action) => {
-        const { numberOfPairs, deck } = action.payload;
-
-        state.deck = createBoardDeck(numberOfPairs, deck);
+        const { numberOfPairs } = action.payload;
+        state.deck = createBoardDeck(numberOfPairs, state.faces);
       })
       .addCase(restart, (state) => {
         state.deck.forEach((card) => {

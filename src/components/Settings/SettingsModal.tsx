@@ -5,12 +5,11 @@ import { updateSettings } from "@/store/gameSlice";
 import { getStore } from "@/store/store";
 
 interface SettingsModalProps {
-  deck?: string[];
   open?: boolean;
   onClose?: () => void;
 }
 
-const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => {
+const SettingsModal: FC<SettingsModalProps> = ({ open, onClose }) => {
   const store = getStore();
   const dispatch = store.dispatch;
   const { numberOfPairs, countdownTime, allowedMoves, status } = store.getState().game;
@@ -22,7 +21,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
     const pairs = data.get("pairs") as string | null;
     const time = data.get("time") as string | null;
     const guesses = data.get("guesses") as string | null;
-    if (!pairs || !time || deck.length === 0) {
+    if (!pairs || !time) {
       return;
     }
     const numberOfPairs = parseInt(pairs);
@@ -32,7 +31,7 @@ const SettingsModal: FC<SettingsModalProps> = ({ deck = [], open, onClose }) => 
     if (isNaN(numberOfPairs) || isNaN(countdownTime)) {
       return;
     }
-    dispatch(updateSettings({ numberOfPairs, countdownTime, deck, allowedMoves: allowedGuesses }));
+    dispatch(updateSettings({ numberOfPairs, countdownTime, allowedMoves: allowedGuesses }));
     onClose?.();
   };
 

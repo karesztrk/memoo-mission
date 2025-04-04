@@ -21,6 +21,7 @@ describe("Board", () => {
 
   const cardState = {
     deck: [],
+    faces: [],
   };
 
   test("renders main idle elements", async () => {
@@ -55,7 +56,7 @@ describe("Board", () => {
       preloadedState: {
         game: { ...gameState, status: "playing" },
         user: { ...userState },
-        card: { ...cardState, deck },
+        card: { ...cardState, deck, faces: ["🐶", "🐱", "🐭"] },
       },
     });
 
@@ -94,7 +95,7 @@ describe("Board", () => {
       preloadedState: {
         game: { ...gameState, status: "playing" },
         user: { ...userState },
-        card: { ...cardState, deck },
+        card: { ...cardState, deck, faces: ["🐶", "🐱", "🐭"] },
       },
     });
 

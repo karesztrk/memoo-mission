@@ -1,11 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Game from "@/components/Game";
-import emojis from "@/assets/emojis.json";
 ---
 
 <Layout>
   <section>
-    <Game client:load deck={emojis} />
+    <Game client:load />
   </section>
 </Layout>

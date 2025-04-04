@@ -4,11 +4,7 @@ import { getStore, subscribeToStore } from "@/store/store";
 import { restart, type GameStatus } from "@/store/gameSlice";
 import SettingsModal from "../Settings/SettingsModal";
 
-interface UserMenuProps {
-  deck?: string[];
-}
-
-const UserMenu: FC<UserMenuProps> = ({ deck = [] }) => {
+const UserMenu: FC = () => {
   const [status, setStatus] = useState<GameStatus>(getStore().getState().game.status);
   const playing = status === "playing" || status === "gameover";
 
@@ -89,7 +85,7 @@ const UserMenu: FC<UserMenuProps> = ({ deck = [] }) => {
         )}
       </ul>
 
-      <SettingsModal open={settingsOpen} onClose={onCloseSettings} deck={deck} />
+      <SettingsModal open={settingsOpen} onClose={onCloseSettings} />
     </>
   );
 };

@@ -19,11 +19,6 @@ export function renderWithProviders(ui: React.ReactElement, extendedRenderOption
     ...renderOptions
   } = extendedRenderOptions;
 
-  // Make the store available for islands
-  if (typeof window !== "undefined") {
-    window.__REDUX_STORE__ = store;
-  }
-
   const Wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>;
 
   // Return an object with the store and all of RTL's query functions
