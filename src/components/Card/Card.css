@@ -1,6 +1,4 @@
 .card {
-  --_card-width: var(--card-width, 100px);
-  --_card-height: var(--card-height, 150px);
   --_card-gap: 10px;
   --_transition: 850ms;
   --_transition-flip: 300ms;
@@ -26,8 +24,9 @@
     1
   );
   position: relative;
-  inline-size: var(--_card-width);
-  block-size: var(--_card-height);
+  aspect-ratio: 10/15;
+  inline-size: 100%;
+  block-size: audo;
   transform-style: preserve-3d;
   background-color: var(--pico-primary-inverse);
   border-radius: 10px;
