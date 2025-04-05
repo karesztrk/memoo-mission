@@ -73,7 +73,7 @@ export const resetFlippedCards = () => {
   }
 };
 
-export const start = (payload: GameStart) => {
+export const start = (payload: { numberOfPairs: number; deck: string[] }) => {
   const { numberOfPairs, deck } = payload;
   const result = createBoardDeck(numberOfPairs, deck);
   deckAtom.set(result.deck);
