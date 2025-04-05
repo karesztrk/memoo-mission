@@ -7,7 +7,7 @@ import {
   timeRemainingAtom,
 } from "@/store/gameStore";
 import { start as cardStart } from "@/store/cardStore";
-import { userStore } from "@/store/userStore";
+import { userAtom } from "@/store/userStore";
 import { useStore } from "@nanostores/react";
 
 interface WelcomeProps {
@@ -18,18 +18,19 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
   const timeRemaining = useStore(timeRemainingAtom);
   const allowedMoves = useStore(allowedMovesAtom);
   const numberOfPairs = useStore(numberOfPairsAtom);
-  const username = userStore.get();
+  const username = userAtom.get();
 
   const dispatchStart = (username: string) => {
-    dispatch(
-      start({
-        username,
-        numberOfPairs,
-        countdownTime: timeRemaining,
-        deck,
-        allowedMoves,
-      }),
-    );
+    userAtom.set(username);
+    start({
+      numberOfPairs,
+      countdownTime: timeRemaining,
+      allowedMoves,
+    });
+    cardStart({
+      numberOfPairs,
+      deck,
+    });
   };
 
   const handleSubmit = (e: FormEvent) => {

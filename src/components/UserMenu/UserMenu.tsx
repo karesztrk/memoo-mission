@@ -1,9 +1,10 @@
 import { restart, statusAtom } from "@/store/gameStore";
 import SettingsModal from "../Settings/SettingsModal";
-import { userStore } from "@/store/userStore";
 import { useState } from "react";
 import type { FC } from "react";
 import { useStore } from "@nanostores/react";
+import "./UserMenu.css";
+import { userAtom } from "@/store/userStore";
 
 interface UserMenuProps {
   deck?: string[];
@@ -12,9 +13,9 @@ interface UserMenuProps {
 const UserMenu: FC<UserMenuProps> = ({ deck = [] }) => {
   const status = useStore(statusAtom);
   const playing = status === "playing" || status === "gameover";
+  const username = userAtom.get();
 
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const username = userStore.get();
 
   const onOpenSettings = () => {
     setSettingsOpen(true);

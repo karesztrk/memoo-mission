@@ -1,3 +1,3 @@
 import { atom } from "nanostores";
 
-export const userStore = atom("");
+export const userAtom = atom("");
