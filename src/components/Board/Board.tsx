@@ -1,33 +1,41 @@
 import { useEffect, type FC } from "react";
 import "./Board.css";
-import { tick, makeMove } from "@/store/gameSlice";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { useAppSelector } from "@/hooks/useAppSelector";
 import {
+  tick,
+  makeMove,
+  statusAtom,
+  numberOfPairsAtom,
+} from "@/store/gameStore";
+import {
+  deckAtom,
   flippedCards,
   matchedPairs,
   resetFlippedCards,
-} from "@/store/cardSlice";
+} from "@/store/cardStore";
 import Welcome from "../Welcome";
 import BoardDeck from "./BoardDeck";
+import { useStore } from "@nanostores/react";
 
-const Board: FC = () => {
-  const dispatch = useAppDispatch();
-  const gameState = useAppSelector((state) => state.game);
-  const cardState = useAppSelector((state) => state.card);
-  const status = useAppSelector((state) => state.game.status);
+interface BoardProps {
+  deck?: string[];
+}
 
-  const matches = matchedPairs({ card: cardState });
-  const flipped = flippedCards({ card: cardState });
+const Board: FC<BoardProps> = ({ deck: deckProp }) => {
+  const deck = useStore(deckAtom);
+  const status = useStore(statusAtom);
+  const numberOfPairs = useStore(numberOfPairsAtom);
+
+  const matches = matchedPairs.get();
+  const flipped = flippedCards.get();
 
   const getStatus = () => {
     const [firstId, secondId] = flipped;
-    const first = cardState.deck.find((card) => card.id === firstId);
-    const second = cardState.deck.find((card) => card.id === secondId);
+    const first = deck.find((card) => card.id === firstId);
+    const second = deck.find((card) => card.id === secondId);
 
     const match = first?.value === second?.value;
 
-    const allMatched = cardState.deck.every(
+    const allMatched = deck.every(
       (card) => card.matched || flipped.includes(card.id),
     );
     return {
@@ -43,14 +51,13 @@ const Board: FC = () => {
     if (flipped.length === 2 && status === "playing") {
       const { allMatched, match } = getStatus();
 
-      dispatch(makeMove({ allMatched, match }));
+      makeMove({ allMatched, match });
 
       setTimeout(() => {
-        // Send the card ids in the action to avoid a race condition
-        dispatch(resetFlippedCards(flipped));
+        resetFlippedCards();
       }, 1000);
     }
-  }, [flipped, dispatch]);
+  }, [flipped]);
 
   /**
    * Countdown.
@@ -61,17 +68,17 @@ const Board: FC = () => {
     }
 
     const timer = setInterval(() => {
-      dispatch(tick());
+      tick();
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [status, dispatch]);
+  }, [status]);
 
   if (status === "idle") {
     return (
       <div className="container">
         <article>
-          <Welcome />
+          <Welcome deck={deckProp} />
         </article>
       </div>
     );
@@ -83,14 +90,14 @@ const Board: FC = () => {
         {status === "gameover" && (
           <div className="game-over">
             <h2>
-              {matches === gameState.numberOfPairs
+              {matches === numberOfPairs
                 ? "🎉 Congratulations! You won! 🎉"
                 : "👾🕹️ Game Over! 🎮💀"}
             </h2>
           </div>
         )}
 
-        <BoardDeck deck={cardState.deck} />
+        <BoardDeck deck={deck} />
       </div>
     </div>
   );

@@ -1,23 +1,21 @@
 import Deck from "../Deck";
 import Card from "../Card";
-import type { Card as CardType } from "@/store/gameSlice";
+import { statusAtom, type Card as CardType } from "@/store/gameStore";
 import { memo, useCallback, type FC } from "react";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { flipCard } from "@/store/cardSlice";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { flipCard } from "@/store/cardStore";
+import { useStore } from "@nanostores/react";
 
 interface BoardDeckProps {
   deck?: CardType[];
 }
 
 const BoardDeck: FC<BoardDeckProps> = ({ deck = [] }) => {
-  const dispatch = useAppDispatch();
-  const status = useAppSelector((state) => state.game.status);
+  const status = useStore(statusAtom);
 
   const onCardClick = useCallback(
     (cardid: number) => () => {
       if (status === "playing") {
-        dispatch(flipCard(cardid));
+        flipCard(cardid);
       }
     },
     [status],
