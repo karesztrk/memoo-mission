@@ -11,7 +11,10 @@ interface WelcomeProps {
 
 const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
   const dispatch = useAppDispatch();
-  const { numberOfPairs, timeRemaining, allowedMoves } = useAppSelector((state) => state.game);
+  const { numberOfPairs, timeRemaining, allowedMoves } = useAppSelector(
+    (state) => state.game,
+  );
+  const username = useAppSelector((state) => state.user.userName);
 
   const dispatchStart = (username: string) => {
     dispatch(
@@ -53,7 +56,14 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
     <form onSubmit={handleSubmit}>
       <label>
         Your Name
-        <input type="text" name="name" required placeholder="Enter your name" />
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          defaultValue={username}
+          required
+          autoComplete="off"
+        />
       </label>
 
       <button type="submit">Start Game</button>
