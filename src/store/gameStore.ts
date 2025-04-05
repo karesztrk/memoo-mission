@@ -17,7 +17,7 @@ export interface GameStart extends GameSettings {
 }
 
 export interface Card {
-  id: number;
+  id: string;
   value: string;
   flipped: boolean;
   matched: boolean;

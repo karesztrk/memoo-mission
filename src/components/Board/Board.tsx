@@ -11,6 +11,8 @@ import {
   flippedCards,
   matchedPairs,
   resetFlippedCards,
+  makeMove as makeMoveCard,
+  orderAtom,
 } from "@/store/cardStore";
 import Welcome from "../Welcome";
 import BoardDeck from "./BoardDeck";
@@ -22,6 +24,7 @@ interface BoardProps {
 
 const Board: FC<BoardProps> = ({ deck: deckProp }) => {
   const deck = useStore(deckAtom);
+  const order = orderAtom.get();
   const status = useStore(statusAtom);
   const numberOfPairs = useStore(numberOfPairsAtom);
 
@@ -30,12 +33,12 @@ const Board: FC<BoardProps> = ({ deck: deckProp }) => {
 
   const getStatus = () => {
     const [firstId, secondId] = flipped;
-    const first = deck.find((card) => card.id === firstId);
-    const second = deck.find((card) => card.id === secondId);
+    const first = deck[firstId];
+    const second = deck[secondId];
 
     const match = first?.value === second?.value;
 
-    const allMatched = deck.every(
+    const allMatched = Object.values(deck).every(
       (card) => card.matched || flipped.includes(card.id),
     );
     return {
@@ -52,6 +55,7 @@ const Board: FC<BoardProps> = ({ deck: deckProp }) => {
       const { allMatched, match } = getStatus();
 
       makeMove({ allMatched, match });
+      makeMoveCard();
 
       setTimeout(() => {
         resetFlippedCards();
@@ -97,7 +101,7 @@ const Board: FC<BoardProps> = ({ deck: deckProp }) => {
           </div>
         )}
 
-        <BoardDeck deck={deck} />
+        <BoardDeck deck={deck} order={order} />
       </div>
     </div>
   );

@@ -2,75 +2,95 @@ import { computed, map } from "nanostores";
 import type { Card, GameSettings, GameStart } from "./gameStore";
 
 export interface CardState {
-  deck: Card[];
+  deck: Record<string, Card>;
+  order: string[];
 }
 
 const initialState: CardState = {
-  deck: [],
+  deck: {},
+  order: [],
 };
 
-const createBoardDeck = (length: number, deck: string[]): Card[] => {
+const createBoardDeck = (
+  length: number,
+  deck: string[],
+): { deck: Record<string, Card>; order: string[] } => {
   const cards = Array.from({ length }, (_, i) => ({
     value: deck[i],
   }));
 
   const pairs = [...cards, ...cards].map((card, i) => ({
     ...card,
-    id: i,
+    id: i.toString(),
     flipped: false,
     matched: false,
   }));
-
-  // Shuffle the deck
-  return pairs.sort(() => Math.random() - 0.5);
+  pairs.sort(() => Math.random() - 0.5);
+  // Shuffle the deck and reutrn as object
+  return {
+    order: pairs.map((card) => card.id.toString()),
+    deck: Object.fromEntries(pairs.map((card) => [card.id, card])),
+  };
 };
 
-const getFlipped = (deck: Card[]): number[] =>
-  deck.filter((card) => card.flipped && !card.matched).map((card) => card.id);
+const getFlipped = (deck: Record<string, Card>): string[] => {
+  return Object.values(deck)
+    .filter((card) => card.flipped && !card.matched)
+    .map((card) => card.id);
+};
 
-const countFlipped = (deck: Card[]): number => getFlipped(deck).length;
+const countFlipped = (deck: Record<string, Card>): number =>
+  getFlipped(deck).length;
 
 export const deckAtom = map(initialState.deck);
+export const orderAtom = map(initialState.order);
 
-export const flipCard = (payload: number) => {
+export const flipCard = (cardId: string) => {
   const deck = deckAtom.get();
-  const cardId = payload;
   if (countFlipped(deck) > 1) {
     return;
   }
 
-  const card = deck.find((card) => card.id === cardId);
+  const card = deckAtom.get()[cardId];
   const valid = card && !card.matched && card.flipped === false;
   if (valid) {
-    card.flipped = true;
+    deckAtom.setKey(cardId, {
+      ...card,
+      flipped: true,
+    });
   }
-  deckAtom.set(deck);
 };
 
 export const resetFlippedCards = () => {
   const deck = deckAtom.get();
-  deck
-    .filter((card) => !card.matched)
-    .forEach((card) => {
-      card.flipped = false;
-    });
-  deckAtom.set(deck);
+  for (const [key, value] of Object.entries(deck)) {
+    if (!value.matched) {
+      deckAtom.setKey(key, {
+        ...value,
+        flipped: false,
+      });
+    }
+  }
 };
 
 export const start = (payload: GameStart) => {
   const { numberOfPairs, deck } = payload;
-  deckAtom.set(createBoardDeck(numberOfPairs, deck));
+  const result = createBoardDeck(numberOfPairs, deck);
+  deckAtom.set(result.deck);
+  orderAtom.set(result.order);
 };
 
 export const updateSettings = (payload: GameSettings) => {
   const { numberOfPairs, deck } = payload;
 
-  deckAtom.set(createBoardDeck(numberOfPairs, deck));
+  const result = createBoardDeck(numberOfPairs, deck);
+  deckAtom.set(result.deck);
+  orderAtom.set(result.order);
 };
 
 export const restart = () => {
   const deck = deckAtom.get();
-  deck.forEach((card) => {
+  Object.values(deck).forEach((card) => {
     card.flipped = false;
   });
   deckAtom.set(deck);
@@ -81,8 +101,8 @@ export const makeMove = () => {
   const flippedCards = getFlipped(deck);
   if (flippedCards.length === 2) {
     const [firstId, secondId] = flippedCards;
-    const firstCard = deck.find((card) => card.id === firstId);
-    const secondCard = deck.find((card) => card.id === secondId);
+    const firstCard = deckAtom.get()[firstId];
+    const secondCard = deckAtom.get()[secondId];
 
     if (!firstCard || !secondCard) {
       return;
@@ -91,15 +111,24 @@ export const makeMove = () => {
     // Check if the cards match
     const match = firstCard.value === secondCard.value;
     if (match) {
-      firstCard.matched = true;
-      secondCard.matched = true;
+      deckAtom.setKey(firstId, {
+        ...firstCard,
+        matched: true,
+      });
+      deckAtom.setKey(secondId, {
+        ...secondCard,
+        matched: true,
+      });
     }
-    deckAtom.set(deck);
   }
 };
 
 export const matchedPairs = computed(deckAtom, (deck) => {
-  return deck.filter((card) => card.matched).reduce((acc) => acc + 1, 0) / 2;
+  return (
+    Object.values(deck)
+      .filter((card) => card.matched)
+      .reduce((acc) => acc + 1, 0) / 2
+  );
 });
 
 export const flippedCards = computed(deckAtom, (deck) => {
