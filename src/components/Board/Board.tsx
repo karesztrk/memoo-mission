@@ -1,17 +1,15 @@
-import { useEffect, type FC } from "react";
+import { useCallback, useEffect, type FC } from "react";
 import "./Board.css";
 import { tick, makeMove } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import Deck from "../Deck";
-import Card from "../Card";
 import {
-  flipCard,
   flippedCards,
   matchedPairs,
   resetFlippedCards,
 } from "@/store/cardSlice";
 import Welcome from "../Welcome";
+import BoardDeck from "./BoardDeck";
 
 interface BoardProps {
   deck?: string[];
@@ -25,12 +23,6 @@ const Board: FC<BoardProps> = ({ deck }) => {
 
   const matches = matchedPairs({ card: cardState });
   const flipped = flippedCards({ card: cardState });
-
-  const onCardClick = (cardId: number) => () => {
-    if (status === "playing") {
-      dispatch(flipCard(cardId));
-    }
-  };
 
   const getStatus = () => {
     const [firstId, secondId] = flipped;
@@ -101,20 +93,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
           </div>
         )}
 
-        <Deck size={cardState.deck.length}>
-          {cardState.deck.map((card, i) => (
-            <Card
-              id={card.id.toString()}
-              order={i}
-              key={card.id}
-              flipped={card.flipped}
-              matched={card.matched}
-              onClick={onCardClick(card.id)}
-            >
-              {card.value}
-            </Card>
-          ))}
-        </Deck>
+        <BoardDeck deck={cardState.deck} />
       </div>
     </div>
   );

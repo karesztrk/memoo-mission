@@ -9,7 +9,11 @@ interface DeckProps {
 const Deck: FC<PropsWithChildren<DeckProps>> = ({ size = 16, children }) => {
   const columns = useMemo(() => greatestDivisor(size), [size]);
   return (
-    <div className="deck" style={{ "--columns": columns }}>
+    <div
+      className="deck"
+      style={{ "--columns": columns }}
+      aria-label="Game deck"
+    >
       {children}
     </div>
   );

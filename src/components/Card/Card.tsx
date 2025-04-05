@@ -1,4 +1,5 @@
 import {
+  memo,
   useEffect,
   useRef,
   useState,
@@ -114,4 +115,11 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
   );
 };
 
-export default Card;
+export default memo(
+  Card,
+  (left, right) =>
+    left.id === right.id &&
+    left.order === right.order &&
+    left.flipped === right.flipped &&
+    left.matched === right.matched,
+);
