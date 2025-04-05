@@ -1,14 +1,25 @@
 .deck {
+  --_gap: 10px;
   --card-width: 100px;
+  --columns: 3;
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
     minmax(min(100%, var(--card-width)), 1fr)
   );
-  gap: 10px;
+  gap: var(--_gap);
   justify-items: center;
+  /* The maximal size is explicitly set to display perfect grids */
+  inline-size: min(
+    calc(
+      var(--card-width) * var(--columns, 3) + var(--_gap) *
+        (var(--columns, 3) - 1)
+    ),
+    100%
+  );
+  margin: 0 auto;
 
   @container container (min-width: 950px) {
-    gap: 20px;
+    --_gap: 20px;
   }
 }

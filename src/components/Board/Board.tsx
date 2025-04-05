@@ -101,7 +101,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
           </div>
         )}
 
-        <Deck>
+        <Deck size={cardState.deck.length}>
           {cardState.deck.map((card, i) => (
             <Card
               id={card.id.toString()}

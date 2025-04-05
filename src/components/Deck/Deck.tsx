@@ -1,8 +1,18 @@
-import type { FC, PropsWithChildren } from "react";
+import { useMemo, type FC, type PropsWithChildren } from "react";
 import "./Deck.css";
+import { greatestDivisor } from "./Deck.util";
 
-const Deck: FC<PropsWithChildren> = ({ children }) => {
-  return <div className="deck">{children}</div>;
+interface DeckProps {
+  size?: number;
+}
+
+const Deck: FC<PropsWithChildren<DeckProps>> = ({ size = 16, children }) => {
+  const columns = useMemo(() => greatestDivisor(size), [size]);
+  return (
+    <div className="deck" style={{ "--columns": columns }}>
+      {children}
+    </div>
+  );
 };
 
 export default Deck;

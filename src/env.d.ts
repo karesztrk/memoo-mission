@@ -18,6 +18,6 @@ declare global {
 
 declare module "react" {
   interface CSSProperties {
-    [key: `--${string}`]: string;
+    [key: `--${string}`]: string | number;
   }
 }
