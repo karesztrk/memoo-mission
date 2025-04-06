@@ -14,7 +14,7 @@ interface WelcomeProps {
   onSubmit?: (data: { name: string }) => void;
 }
 
-const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
+const Welcome: FC<WelcomeProps> = ({ onSubmit: onSubmitProp }) => {
   const timeRemaining = useStore(timeRemainingAtom);
   const allowedMoves = useStore(allowedMovesAtom);
   const numberOfPairs = useStore(numberOfPairsAtom);
@@ -29,7 +29,6 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
     });
     cardStart({
       numberOfPairs,
-      deck,
     });
   };
 

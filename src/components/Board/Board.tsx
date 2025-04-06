@@ -17,11 +17,7 @@ import Welcome from "../Welcome";
 import BoardDeck from "./BoardDeck";
 import { useStore } from "@nanostores/react";
 
-interface BoardProps {
-  deck?: string[];
-}
-
-const Board: FC<BoardProps> = ({ deck: deckProp }) => {
+const Board: FC = () => {
   const deck = useStore(deckAtom);
   const status = useStore(statusAtom);
   const numberOfPairs = useStore(numberOfPairsAtom);
@@ -80,7 +76,7 @@ const Board: FC<BoardProps> = ({ deck: deckProp }) => {
     return (
       <div className="container">
         <article>
-          <Welcome deck={deckProp} />
+          <Welcome />
         </article>
       </div>
     );

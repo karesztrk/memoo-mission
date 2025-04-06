@@ -16,11 +16,7 @@ interface SettingsModalProps {
   onClose?: () => void;
 }
 
-const SettingsModal: FC<SettingsModalProps> = ({
-  deck = [],
-  open,
-  onClose,
-}) => {
+const SettingsModal: FC<SettingsModalProps> = ({ open, onClose }) => {
   const status = useStore(statusAtom);
   const allowedMoves = useStore(allowedMovesAtom);
   const numberOfPairs = useStore(numberOfPairsAtom);
@@ -50,7 +46,6 @@ const SettingsModal: FC<SettingsModalProps> = ({
     });
     updateCardSettings({
       numberOfPairs,
-      deck,
     });
     onClose?.();
   };

@@ -6,11 +6,7 @@ import { useStore } from "@nanostores/react";
 import "./UserMenu.css";
 import { userAtom } from "@/store/userStore";
 
-interface UserMenuProps {
-  deck?: string[];
-}
-
-const UserMenu: FC<UserMenuProps> = ({ deck = [] }) => {
+const UserMenu: FC = () => {
   const status = useStore(statusAtom);
   const playing = status === "playing" || status === "gameover";
   const username = userAtom.get();
@@ -97,11 +93,7 @@ const UserMenu: FC<UserMenuProps> = ({ deck = [] }) => {
         )}
       </ul>
 
-      <SettingsModal
-        open={settingsOpen}
-        onClose={onCloseSettings}
-        deck={deck}
-      />
+      <SettingsModal open={settingsOpen} onClose={onCloseSettings} />
     </>
   );
 };

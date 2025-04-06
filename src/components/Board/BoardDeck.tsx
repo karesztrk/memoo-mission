@@ -7,8 +7,8 @@ import { useStore } from "@nanostores/react";
 
 const BoardDeck: FC = () => {
   const status = statusAtom.get();
-  const deck = useStore(deckAtom);
   const order = orderAtom.get();
+  const deck = useStore(deckAtom);
 
   const onCardClick = useCallback(
     (cardid: string) => () => {

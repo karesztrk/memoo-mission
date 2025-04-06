@@ -1,5 +1,6 @@
-import { atom, computed, map } from "nanostores";
-import type { Card, GameSettings, GameStart } from "./gameStore";
+import { atom, computed, map, onMount, task } from "nanostores";
+import type { Card } from "./gameStore";
+import emojis from "@/assets/emojis.json";
 
 export interface CardState {
   deck: Record<string, Card>;
@@ -73,19 +74,17 @@ export const resetFlippedCards = () => {
   }
 };
 
-export const start = (payload: { numberOfPairs: number; deck: string[] }) => {
-  const { numberOfPairs, deck } = payload;
+export const start = (payload: { numberOfPairs: number }) => {
+  const { numberOfPairs } = payload;
+  const deck = emojis;
   const result = createBoardDeck(numberOfPairs, deck);
   deckAtom.set(result.deck);
   orderAtom.set(result.order);
 };
 
-export const updateCardSettings = (payload: {
-  numberOfPairs: number;
-  deck: string[];
-}) => {
-  const { numberOfPairs, deck } = payload;
-
+export const updateCardSettings = (payload: { numberOfPairs: number }) => {
+  const { numberOfPairs } = payload;
+  const deck = emojis;
   const result = createBoardDeck(numberOfPairs, deck);
   deckAtom.set(result.deck);
   orderAtom.set(result.order);
