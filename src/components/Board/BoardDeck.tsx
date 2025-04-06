@@ -1,6 +1,7 @@
 import Deck from "../Deck";
 import Card from "../Card";
-import { statusAtom, type Card as CardType } from "@/store/gameStore";
+import { statusAtom } from "@/store/gameStore";
+import type { Card as CardType } from "@/store/types";
 import { memo, useCallback, useMemo, type FC } from "react";
 import { deckAtom, flipCard, orderAtom } from "@/store/cardStore";
 import { useStore } from "@nanostores/react";
@@ -49,4 +50,4 @@ const BoardDeck: FC = () => {
   );
 };
 
-export default memo(BoardDeck, (left, right) => left.deck === right.deck);
+export default memo(BoardDeck);

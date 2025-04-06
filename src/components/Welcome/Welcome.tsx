@@ -6,9 +6,9 @@ import {
   start,
   timeRemainingAtom,
 } from "@/store/gameStore";
-import { start as cardStart } from "@/store/cardStore";
 import { userAtom } from "@/store/userStore";
 import { useStore } from "@nanostores/react";
+import { prepareDeck } from "@/store/cardStore";
 
 interface WelcomeProps {
   onSubmit?: (data: { name: string }) => void;
@@ -27,7 +27,7 @@ const Welcome: FC<WelcomeProps> = ({ onSubmit: onSubmitProp }) => {
       countdownTime: timeRemaining,
       allowedMoves,
     });
-    cardStart({
+    prepareDeck({
       numberOfPairs,
     });
   };

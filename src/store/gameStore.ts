@@ -1,32 +1,11 @@
-import { atom, computed, onMount } from "nanostores";
-import { deckAtom, flippedCards } from "./cardStore";
+import { atom, computed } from "nanostores";
+import { allMatched, deckAtom, flippedCards } from "./cardStore";
+import type { GameSettings, GameStart, GameStatus, Move } from "./types";
 
 const DEFAULT_PAIRS = 6;
 const DEFAULT_TIME = 60;
 const MATCH_SCORE = 100;
 const MISTAKE_SCORE = 10;
-
-export interface GameSettings {
-  countdownTime: number;
-  numberOfPairs: number;
-  allowedMoves?: number;
-}
-
-export type GameStart = GameSettings;
-
-export interface Card {
-  id: string;
-  value: string;
-  flipped: boolean;
-  matched: boolean;
-}
-
-export interface Move {
-  allMatched: boolean;
-  match: boolean;
-}
-
-export type GameStatus = "idle" | "playing" | "gameover";
 
 export interface GameState {
   countdownTime: number;
@@ -72,6 +51,18 @@ export const allowedMovesAtom = atom(initialState.allowedMoves);
 export const statusAtom = atom(initialState.status);
 export const movesAtom = atom(initialState.moves);
 export const matchesAtom = atom(initialState.matches);
+export const selectMistakes = computed(
+  [movesAtom, matchesAtom],
+  (moves, matches) => moves - matches,
+);
+export const selectScore = computed(
+  [movesAtom, matchesAtom],
+  (moves, matches) => {
+    return (
+      MATCH_SCORE + matches * MATCH_SCORE - (moves - matches) * MISTAKE_SCORE
+    );
+  },
+);
 
 export const start = (payload: GameStart) => {
   const { countdownTime, numberOfPairs, allowedMoves } = payload;
@@ -94,10 +85,7 @@ export const updateSettings = (payload: GameSettings) => {
 };
 
 export const makeMove = (payload: Move) => {
-  const { allMatched, match } = payload;
-  if (allMatched) {
-    statusAtom.set(statusMachine[statusAtom.get()].allMatched);
-  }
+  const { match } = payload;
 
   movesAtom.set(movesAtom.get() + 1);
 
@@ -131,43 +119,24 @@ export const restart = () => {
   matchesAtom.set(0);
 };
 
-export const selectMistakes = computed(
-  [movesAtom, matchesAtom],
-  (moves, matches) => moves - matches,
-);
-
-export const selectScore = computed(
-  [movesAtom, matchesAtom],
-  (moves, matches) => {
-    return (
-      MATCH_SCORE + matches * MATCH_SCORE - (moves - matches) * MISTAKE_SCORE
-    );
-  },
-);
-
-const getStatus = (flipped: readonly string[], deck: Record<string, Card>) => {
+const getMatchStatus = (flipped: readonly string[]) => {
   const [firstId, secondId] = flipped;
-  const first = deck[firstId];
-  const second = deck[secondId];
+  const first = deckAtom.get()[firstId];
+  const second = deckAtom.get()[secondId];
 
-  const match = first?.value === second?.value;
-
-  const allMatched = Object.values(deck).every(
-    (card) => card.matched || flipped.includes(card.id),
-  );
-  return {
-    match,
-    allMatched,
-  };
+  return first?.value === second?.value;
 };
 
+allMatched.subscribe((allMatched) => {
+  if (allMatched) {
+    statusAtom.set(statusMachine[statusAtom.get()].allMatched);
+  }
+});
+
 flippedCards.subscribe((flipped) => {
-  const status = statusAtom.get();
+  if (flipped.length === 2) {
+    const match = getMatchStatus(flipped);
 
-  if (flipped.length === 2 && status === "playing") {
-    const deck = deckAtom.get();
-    const { allMatched, match } = getStatus(flipped, deck);
-
-    makeMove({ allMatched, match });
+    makeMove({ match });
   }
 });
