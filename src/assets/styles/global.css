@@ -88,21 +88,89 @@
   }
 }
 
+label {
+  font-family: "Gilroy-Bold", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
 input {
   border-radius: 10px;
+
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }
 
 button[type="submit"] {
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
   text-transform: uppercase;
+  padding-block: 15px;
 }
 
 dialog article header {
-  block-size: 74px;
+  padding-block: 25px;
+  padding-inline: 20px;
 
   h3 {
-    line-height: 1.5;
+    font-family: "Gilroy-Heavy", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: 0%;
+  }
+
+  button[rel="prev"] {
+    background-size: auto 1.5rem;
+    border-radius: 0;
+    padding: 15px;
+    margin-top: -4px;
   }
 }
+
+::backdrop {
+  transition:
+    display 500ms allow-discrete,
+    overlay 500ms allow-discrete,
+    opacity 500ms;
+  opacity: 0;
+}
+
+dialog {
+  transition:
+    display 500ms allow-discrete,
+    overlay 500ms allow-discrete,
+    translate 500ms,
+    opacity 500ms;
+  opacity: 0;
+  translate: 0px -20px;
+}
+
+[open],
+[open]::backdrop {
+  translate: 0 0;
+}
+
+[open] {
+  opacity: 1;
+}
+
+@starting-style {
+  [open],
+  [open]::backdrop {
+    opacity: 0;
+  }
+  [open] {
+    translate: 0px -20px;
+  }
+}
+
 [data-theme="light"] {
   dialog article header {
     background: var(--color-gray-light);

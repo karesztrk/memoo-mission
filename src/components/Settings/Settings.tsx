@@ -13,9 +13,9 @@ const Settings: FC<SettingsFormProps> = ({
   allowedMoves,
 }) => {
   return (
-    <>
+    <div className="settings">
       <label>
-        Number of Pairs
+        Number of pair of cards
         <input
           type="number"
           name="pairs"
@@ -28,7 +28,7 @@ const Settings: FC<SettingsFormProps> = ({
       </label>
 
       <label>
-        Time Limit (seconds)
+        Countdown time (sec.)
         <input
           type="number"
           name="time"
@@ -51,7 +51,7 @@ const Settings: FC<SettingsFormProps> = ({
           autoComplete="off"
         />
       </label>
-    </>
+    </div>
   );
 };
 

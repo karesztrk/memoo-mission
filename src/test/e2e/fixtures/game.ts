@@ -29,10 +29,16 @@ export class Game {
     time: number;
     allowed?: number;
   }) {
-    await this.page.getByRole("spinbutton", { name: "Number of Pairs" }).fill(pairs.toString());
-    await this.page.getByRole("spinbutton", { name: "Time Limit (seconds)" }).fill(time.toString());
+    await this.page
+      .getByRole("spinbutton", { name: "Number of pair of cards" })
+      .fill(pairs.toString());
+    await this.page
+      .getByRole("spinbutton", { name: "Countdown time (sec.)" })
+      .fill(time.toString());
     if (allowed !== undefined) {
-      await this.page.getByRole("spinbutton", { name: "Allowed guesses" }).fill(allowed.toString());
+      await this.page
+        .getByRole("spinbutton", { name: "Allowed guesses" })
+        .fill(allowed.toString());
     }
   }
 

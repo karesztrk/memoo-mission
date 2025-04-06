@@ -26,6 +26,7 @@
     background: none;
     border: none;
     color: var(--color-icon-button);
+    border-radius: 0;
   }
 
   &:not(:first-of-type) {
