@@ -1,17 +1,16 @@
 import { describe, expect, test } from "vitest";
-import { screen } from "@testing-library/react";
-import { renderWithProviders } from "@/test/utils/test-utils";
+import { render, screen } from "@testing-library/react";
 import Settings from "@/components/Settings";
 
 describe("Settings", () => {
   test("default form values", async () => {
-    renderWithProviders(<Settings />);
+    render(<Settings />);
 
     expect(
-      screen.getByRole("spinbutton", { name: "Number of pair of cards" }),
+      screen.getByRole("spinbutton", { name: "Number of Pairs" }),
     ).toHaveValue(6);
     expect(
-      screen.getByRole("spinbutton", { name: "Countdown time (sec.)" }),
+      screen.getByRole("spinbutton", { name: "Time Limit (seconds)" }),
     ).toHaveValue(60);
     expect(
       screen.getByRole("spinbutton", { name: "Allowed guesses" }),

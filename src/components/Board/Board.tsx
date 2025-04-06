@@ -12,7 +12,6 @@ import {
   matchedPairs,
   resetFlippedCards,
   makeMove as makeMoveCard,
-  orderAtom,
 } from "@/store/cardStore";
 import Welcome from "../Welcome";
 import BoardDeck from "./BoardDeck";
@@ -24,7 +23,6 @@ interface BoardProps {
 
 const Board: FC<BoardProps> = ({ deck: deckProp }) => {
   const deck = useStore(deckAtom);
-  const order = orderAtom.get();
   const status = useStore(statusAtom);
   const numberOfPairs = useStore(numberOfPairsAtom);
 
@@ -101,7 +99,7 @@ const Board: FC<BoardProps> = ({ deck: deckProp }) => {
           </div>
         )}
 
-        <BoardDeck deck={deck} order={order} />
+        <BoardDeck />
       </div>
     </div>
   );

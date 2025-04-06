@@ -1,7 +1,8 @@
-import { renderWithProviders } from "@/test/utils/test-utils";
 import { describe, expect, test } from "vitest";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Stat from "@/components/Stats";
+import { allowedMovesAtom, statusAtom } from "@/store/gameStore";
+import { userAtom } from "@/store/userStore";
 
 describe("Stats", () => {
   const gameState = {
@@ -20,18 +21,16 @@ describe("Stats", () => {
   };
 
   test("renders main idle elements", () => {
-    const { container } = renderWithProviders(<Stat />);
+    const { container } = render(<Stat />);
     expect(container).toBeEmptyDOMElement();
   });
 
   test("renders main playing elements", () => {
     const userName = "John Doe";
-    renderWithProviders(<Stat />, {
-      preloadedState: {
-        game: { ...gameState, status: "playing" },
-        user: { ...userState, userName },
-      },
-    });
+    statusAtom.set("playing");
+    userAtom.set(userName);
+
+    render(<Stat />);
 
     expect(screen.getByText("1:00")).toBeInTheDocument();
     expect(screen.getByText("0 matches")).toBeInTheDocument();
@@ -42,12 +41,11 @@ describe("Stats", () => {
   test("renders allowed guesses", () => {
     const userName = "John Doe";
     const allowed = 10;
-    renderWithProviders(<Stat />, {
-      preloadedState: {
-        game: { ...gameState, status: "playing", allowedMoves: allowed },
-        user: { ...userState, userName },
-      },
-    });
+    statusAtom.set("playing");
+    userAtom.set(userName);
+    allowedMovesAtom.set(allowed);
+
+    render(<Stat />);
 
     expect(screen.getByText("1:00")).toBeInTheDocument();
     expect(screen.getByText("0 matches")).toBeInTheDocument();

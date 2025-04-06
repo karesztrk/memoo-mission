@@ -1,4 +1,4 @@
-import { computed, map } from "nanostores";
+import { atom, computed, map } from "nanostores";
 import type { Card, GameSettings, GameStart } from "./gameStore";
 
 export interface CardState {
@@ -43,7 +43,7 @@ const countFlipped = (deck: Record<string, Card>): number =>
   getFlipped(deck).length;
 
 export const deckAtom = map(initialState.deck);
-export const orderAtom = map(initialState.order);
+export const orderAtom = atom(initialState.order);
 
 export const flipCard = (cardId: string) => {
   const deck = deckAtom.get();
@@ -80,7 +80,10 @@ export const start = (payload: { numberOfPairs: number; deck: string[] }) => {
   orderAtom.set(result.order);
 };
 
-export const updateSettings = (payload: GameSettings) => {
+export const updateCardSettings = (payload: {
+  numberOfPairs: number;
+  deck: string[];
+}) => {
   const { numberOfPairs, deck } = payload;
 
   const result = createBoardDeck(numberOfPairs, deck);

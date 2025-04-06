@@ -1,17 +1,14 @@
 import Deck from "../Deck";
 import Card from "../Card";
 import { statusAtom, type Card as CardType } from "@/store/gameStore";
-import { memo, useCallback, type FC } from "react";
-import { flipCard } from "@/store/cardStore";
+import { memo, useCallback, useMemo, type FC } from "react";
+import { deckAtom, flipCard, orderAtom } from "@/store/cardStore";
 import { useStore } from "@nanostores/react";
 
-interface BoardDeckProps {
-  deck?: Record<number, CardType>;
-  order?: number[];
-}
-
-const BoardDeck: FC<BoardDeckProps> = ({ deck = {}, order = [] }) => {
-  const status = useStore(statusAtom);
+const BoardDeck: FC = () => {
+  const status = statusAtom.get();
+  const deck = useStore(deckAtom);
+  const order = orderAtom.get();
 
   const onCardClick = useCallback(
     (cardid: string) => () => {
@@ -22,23 +19,32 @@ const BoardDeck: FC<BoardDeckProps> = ({ deck = {}, order = [] }) => {
     [status],
   );
 
+  const cards = useMemo<CardType[]>(() => {
+    if (order.length === 0) {
+      return Object.values(deck);
+    }
+    const values: CardType[] = [];
+    for (const id of order) {
+      const card = deck[id];
+      values.push(card);
+    }
+    return values;
+  }, [deck, order]);
+
   return (
     <Deck size={Object.keys(deck).length}>
-      {order.map((i) => {
-        const card = deck[i];
-        return (
-          <Card
-            id={card.id.toString()}
-            order={i}
-            key={card.id}
-            flipped={card.flipped}
-            matched={card.matched}
-            onClick={onCardClick(card.id)}
-          >
-            {card.value}
-          </Card>
-        );
-      })}
+      {cards.map((card, i) => (
+        <Card
+          id={card.id.toString()}
+          order={i}
+          key={card.id}
+          flipped={card.flipped}
+          matched={card.matched}
+          onClick={onCardClick(card.id)}
+        >
+          {card.value}
+        </Card>
+      ))}
     </Deck>
   );
 };

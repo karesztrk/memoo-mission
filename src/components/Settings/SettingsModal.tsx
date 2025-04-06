@@ -9,6 +9,7 @@ import {
   updateSettings,
 } from "@/store/gameStore";
 import { useStore } from "@nanostores/react";
+import { updateCardSettings } from "@/store/cardStore";
 
 interface SettingsModalProps {
   open?: boolean;
@@ -45,8 +46,11 @@ const SettingsModal: FC<SettingsModalProps> = ({
     updateSettings({
       numberOfPairs,
       countdownTime,
-      deck,
       allowedMoves: allowedGuesses,
+    });
+    updateCardSettings({
+      numberOfPairs,
+      deck,
     });
     onClose?.();
   };
