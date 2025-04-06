@@ -14,6 +14,20 @@
   --color-card-front-bg: var(--cloli-gray-light);
 }
 
+[data-theme="light"],
+:root:not([data-theme="dark"]),
+:host:not([data-theme="dark"]) {
+  --pico-text-selection-color: rgba(244, 93, 44, 0.25);
+  --pico-primary: var(--color-brand);
+  --pico-primary-background: var(--color-brand);
+  --pico-primary-underline: rgba(189, 60, 19, 0.5);
+  --pico-primary-hover: #942d0d;
+  --pico-primary-hover-background: #bf2e40;
+  --pico-primary-focus: rgba(244, 93, 44, 0.5);
+  --pico-primary-inverse: #fff;
+  --pico-border-radius: 30px;
+}
+
 .container {
   container: container / inline-size;
 }
@@ -71,5 +85,26 @@
 
   to {
     --hue: 100deg;
+  }
+}
+
+input {
+  border-radius: 10px;
+}
+
+button[type="submit"] {
+  text-transform: uppercase;
+}
+
+dialog article header {
+  block-size: 74px;
+
+  h3 {
+    line-height: 1.5;
+  }
+}
+[data-theme="light"] {
+  dialog article header {
+    background: var(--color-gray-light);
   }
 }
