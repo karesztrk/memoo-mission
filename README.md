@@ -1,8 +1,11 @@
 # Memoo Mission
 
-A [Memory game](https://news.ycombinator.com/) application. The project itself is homework for bene:studio. That's how the name originated.
+A [Memory game](https://news.ycombinator.com/) application. The project itself
+is homework for bene:studio. That's how the name originated.
 
-In general, the project is built using the [Astro framework](https://astro.build/). It also utilizes [React](https://react.dev/) to render specific components. The final bundle is a SSG web application.
+In general, the project is built using the [Astro framework](https://astro.build/).
+It also utilizes [React](https://react.dev/) to render specific components.
+The final bundle is a SSG web application.
 
 ## Features
 
@@ -43,7 +46,8 @@ pnpm dev
 
 ### Local
 
-To serve the application, execute the following script. It will start the server on \_port 3000 by default.
+To serve the application, execute the following script.
+It will start the server on \_port 3000 by default.
 
 ```sh
 # npm i -g serve
@@ -54,7 +58,8 @@ For more information visit [Astro docs](https://docs.astro.build/en/guides/integ
 
 ### Docker
 
-Build a Docker image (prefer [Buildx](https://docs.docker.com/build/concepts/overview/#buildx)) from the `Dockerfile`. Start a new container from the build image.
+Build a Docker image (prefer [Buildx](https://docs.docker.com/build/concepts/overview/#buildx))
+from the `Dockerfile`. Start a new container from the build image.
 
 ```sh
 # install dockerx
