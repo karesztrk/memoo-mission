@@ -76,7 +76,7 @@ export const restart = () => {
   deckAtom.set(deck);
 };
 
-export const makeMove = () => {
+export const checkMatches = () => {
   const deck = deckAtom.get();
   const flippedCards = getFlipped(deck);
   if (flippedCards.length === 2) {
@@ -103,7 +103,7 @@ export const makeMove = () => {
 
 flippedCards.subscribe((flipped) => {
   if (flipped.length >= 2) {
-    makeMove();
+    checkMatches();
 
     setTimeout(() => {
       resetFlippedCards(flipped);

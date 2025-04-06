@@ -1,16 +1,13 @@
 import type { FC } from "react";
 import "./Board.css";
-import { matchedPairs } from "@/store/cardStore";
-import { numberOfPairsAtom, statusAtom } from "@/store/gameStore";
+import { statusAtom, selectWon } from "@/store/gameStore";
 import { useStore } from "@nanostores/react";
 import Welcome from "../Welcome";
 import BoardDeck from "./BoardDeck";
 
 const Board: FC = () => {
   const status = useStore(statusAtom);
-  const numberOfPairs = useStore(numberOfPairsAtom);
-
-  const matches = matchedPairs.get();
+  const won = selectWon.get();
 
   if (status === "idle") {
     return (
@@ -28,9 +25,7 @@ const Board: FC = () => {
         {status === "gameover" && (
           <div className="game-over">
             <h2>
-              {matches === numberOfPairs
-                ? "🎉 Congratulations! You won! 🎉"
-                : "👾🕹️ Game Over! 🎮💀"}
+              {won ? "🎉 Congratulations! You won! 🎉" : "👾🕹️ Game Over! 🎮💀"}
             </h2>
           </div>
         )}

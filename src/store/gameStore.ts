@@ -1,5 +1,5 @@
 import { atom, computed } from "nanostores";
-import { allMatched, deckAtom, flippedCards } from "./cardStore";
+import { allMatched, deckAtom, flippedCards, matchedPairs } from "./cardStore";
 import type { GameSettings, GameStart, GameStatus, Move } from "./types";
 
 const DEFAULT_PAIRS = 6;
@@ -16,6 +16,7 @@ export interface GameState {
   status: GameStatus;
   moves: number;
   matches: number;
+  won: boolean;
 }
 
 const initialState: GameState = {
@@ -26,6 +27,7 @@ const initialState: GameState = {
   status: "idle",
   moves: 0,
   matches: 0,
+  won: false,
 };
 
 const statusMachine: Record<GameStatus, Record<string, GameStatus>> = {
@@ -51,6 +53,10 @@ export const allowedMovesAtom = atom(initialState.allowedMoves);
 export const statusAtom = atom(initialState.status);
 export const movesAtom = atom(initialState.moves);
 export const matchesAtom = atom(initialState.matches);
+export const selectWon = computed(
+  [matchedPairs, numberOfPairsAtom],
+  (current, goal) => current === goal,
+);
 export const selectMistakes = computed(
   [movesAtom, matchesAtom],
   (moves, matches) => moves - matches,
