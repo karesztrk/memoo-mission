@@ -1,5 +1,5 @@
 import { atom, computed, map, onMount, task } from "nanostores";
-import type { Card } from "./gameStore";
+import { statusAtom, type Card } from "./gameStore";
 import emojis from "@/assets/emojis.json";
 
 export interface CardState {
@@ -62,7 +62,7 @@ export const flipCard = (cardId: string) => {
   }
 };
 
-export const resetFlippedCards = (cardIds: string[]) => {
+export const resetFlippedCards = (cardIds: readonly string[]) => {
   for (const key of cardIds) {
     const card = deckAtom.get()[key];
     if (!card.matched) {
@@ -135,4 +135,14 @@ export const matchedPairs = computed(deckAtom, (deck) => {
 
 export const flippedCards = computed(deckAtom, (deck) => {
   return getFlipped(deck);
+});
+
+flippedCards.subscribe((flipped) => {
+  if (flipped.length >= 2) {
+    makeMove();
+
+    setTimeout(() => {
+      resetFlippedCards(flipped);
+    }, 1000);
+  }
 });
