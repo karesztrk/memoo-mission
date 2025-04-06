@@ -58,12 +58,14 @@ const cardSlice = createSlice({
       }
     },
 
-    resetFlippedCards: (state) => {
-      state.deck
-        .filter((card) => !card.matched)
-        .forEach((card) => {
+    resetFlippedCards: (state, action: PayloadAction<number[]>) => {
+      const cardIds = action.payload;
+      for (const id of cardIds) {
+        const card = state.deck.find((card) => card.id === id);
+        if (card && !card.matched) {
           card.flipped = false;
-        });
+        }
+      }
     },
   },
   extraReducers: (builder) => {

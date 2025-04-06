@@ -46,7 +46,8 @@ const Board: FC = () => {
       dispatch(makeMove({ allMatched, match }));
 
       setTimeout(() => {
-        dispatch(resetFlippedCards());
+        // Send the card ids in the action to avoid a race condition
+        dispatch(resetFlippedCards(flipped));
       }, 1000);
     }
   }, [flipped, dispatch]);
