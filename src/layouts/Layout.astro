@@ -4,7 +4,6 @@ import Header from "@/components/Header/Header.astro";
 import Footer from "@/components/Footer";
 import "@/assets/styles/fonts.css";
 import "@/assets/styles/global.css";
-import emojis from "@/assets/emojis.json";
 ---
 
 <html lang="en">
@@ -17,7 +16,7 @@ import emojis from "@/assets/emojis.json";
     <link rel="preload" href="https://fonts.cdnfonts.com/s/16219/Gilroy-Bold.woff" as="font" type="font/woff" crossorigin />
   </head>
   <body>
-    <Header deck={emojis} />
+    <Header  />
     <main class="container">
       <slot />
     </main>

@@ -4,14 +4,10 @@ import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import Board from "../Board";
 
-interface GameProps {
-  deck?: string[];
-}
-
-const Game: FC<GameProps> = ({ deck = [] }) => {
+const Game: FC = () => {
   return (
     <Provider store={store}>
-      <Board deck={deck} />
+      <Board />
     </Provider>
   );
 };

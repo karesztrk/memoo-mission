@@ -2,12 +2,6 @@
 import "./Header.css";
 import Stats from "@/components/Stats";
 import UserMenu from "@/components/UserMenu";
-
-interface Props {
-  deck: string[];
-}
-
-const { deck } = Astro.props;
 ---
 
 <header class="container">
@@ -55,6 +49,6 @@ const { deck } = Astro.props;
       </li>
     </ul>
     <Stats client:load />
-    <UserMenu deck={deck} client:load />
+    <UserMenu client:load />
   </nav>
 </header>

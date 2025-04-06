@@ -5,11 +5,10 @@ import { start } from "@/store/gameSlice";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
 interface WelcomeProps {
-  deck?: string[];
   onSubmit?: (data: { name: string }) => void;
 }
 
-const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
+const Welcome: FC<WelcomeProps> = ({ onSubmit: onSubmitProp }) => {
   const dispatch = useAppDispatch();
   const { numberOfPairs, timeRemaining, allowedMoves } = useAppSelector(
     (state) => state.game,
@@ -22,7 +21,6 @@ const Welcome: FC<WelcomeProps> = ({ deck = [], onSubmit: onSubmitProp }) => {
         username,
         numberOfPairs,
         countdownTime: timeRemaining,
-        deck,
         allowedMoves,
       }),
     );

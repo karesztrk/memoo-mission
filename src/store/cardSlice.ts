@@ -1,5 +1,16 @@
-import { createSelector, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { makeMove, restart, start, updateSettings, type Card } from "./gameSlice";
+import {
+  createSelector,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
+import {
+  makeMove,
+  restart,
+  start,
+  updateSettings,
+  type Card,
+} from "./gameSlice";
+import emojis from "@/assets/emojis.json";
 
 export interface CardState {
   deck: Card[];
@@ -58,12 +69,13 @@ const cardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(start, (state, action) => {
-        const { numberOfPairs, deck } = action.payload;
+        const { numberOfPairs } = action.payload;
+        const deck = emojis;
         state.deck = createBoardDeck(numberOfPairs, deck);
       })
       .addCase(updateSettings, (state, action) => {
-        const { numberOfPairs, deck } = action.payload;
-
+        const { numberOfPairs } = action.payload;
+        const deck = emojis;
         state.deck = createBoardDeck(numberOfPairs, deck);
       })
       .addCase(restart, (state) => {
@@ -94,7 +106,8 @@ const cardSlice = createSlice({
   selectors: {
     matchedPairs: createSelector(
       (sliceState: CardState) => sliceState.deck,
-      (value) => value.filter((card) => card.matched).reduce((acc) => acc + 1, 0) / 2,
+      (value) =>
+        value.filter((card) => card.matched).reduce((acc) => acc + 1, 0) / 2,
     ),
     flippedCards: createSelector(
       (sliceState: CardState) => sliceState.deck,

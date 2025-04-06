@@ -1,4 +1,4 @@
-import { useCallback, useEffect, type FC } from "react";
+import { useEffect, type FC } from "react";
 import "./Board.css";
 import { tick, makeMove } from "@/store/gameSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
@@ -11,11 +11,7 @@ import {
 import Welcome from "../Welcome";
 import BoardDeck from "./BoardDeck";
 
-interface BoardProps {
-  deck?: string[];
-}
-
-const Board: FC<BoardProps> = ({ deck }) => {
+const Board: FC = () => {
   const dispatch = useAppDispatch();
   const gameState = useAppSelector((state) => state.game);
   const cardState = useAppSelector((state) => state.card);
@@ -74,7 +70,7 @@ const Board: FC<BoardProps> = ({ deck }) => {
     return (
       <div className="container">
         <article>
-          <Welcome deck={deck} />
+          <Welcome />
         </article>
       </div>
     );
