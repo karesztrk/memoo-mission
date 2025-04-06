@@ -7,10 +7,10 @@ describe("Settings", () => {
     render(<Settings />);
 
     expect(
-      screen.getByRole("spinbutton", { name: "Number of Pairs" }),
+      screen.getByRole("spinbutton", { name: "Number of pair of cards" }),
     ).toHaveValue(6);
     expect(
-      screen.getByRole("spinbutton", { name: "Time Limit (seconds)" }),
+      screen.getByRole("spinbutton", { name: "Countdown time (sec.)" }),
     ).toHaveValue(60);
     expect(
       screen.getByRole("spinbutton", { name: "Allowed guesses" }),

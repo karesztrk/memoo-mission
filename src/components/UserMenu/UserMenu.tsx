@@ -1,10 +1,11 @@
-import { restart, statusAtom } from "@/store/gameStore";
+import { statusAtom } from "@/store/gameStore";
 import SettingsModal from "../Settings/SettingsModal";
 import { useState } from "react";
 import type { FC } from "react";
 import { useStore } from "@nanostores/react";
 import "./UserMenu.css";
 import { userAtom } from "@/store/userStore";
+import { restart } from "@/store/gameStore.action";
 
 const UserMenu: FC = () => {
   const status = useStore(statusAtom);

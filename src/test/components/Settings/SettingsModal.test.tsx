@@ -35,10 +35,10 @@ describe("SettingsModal", () => {
   test("opened dialog", async () => {
     render(<SettingsModal open />);
     expect(
-      screen.getByRole("spinbutton", { name: "Number of Pairs" }),
+      screen.getByRole("spinbutton", { name: "Number of pair of cards" }),
     ).toBeVisible();
     expect(
-      screen.getByRole("spinbutton", { name: "Time Limit (seconds)" }),
+      screen.getByRole("spinbutton", { name: "Countdown time (sec.)" }),
     ).toBeVisible();
     expect(
       screen.getByRole("spinbutton", { name: "Allowed guesses" }),
@@ -56,8 +56,7 @@ describe("SettingsModal", () => {
   test("submit settings", async () => {
     const onClose = vitest.fn();
     const user = userEvent.setup();
-    const deck = ["A", "B", "C"];
-    render(<SettingsModal open onClose={onClose} deck={deck} />);
+    render(<SettingsModal open onClose={onClose} />);
 
     await user.click(screen.getByRole("button", { name: "Save settings" }));
 

@@ -3,12 +3,12 @@ import type { FC, FormEvent } from "react";
 import {
   allowedMovesAtom,
   numberOfPairsAtom,
-  start,
   timeRemainingAtom,
 } from "@/store/gameStore";
 import { userAtom } from "@/store/userStore";
 import { useStore } from "@nanostores/react";
-import { prepareDeck } from "@/store/cardStore";
+import { prepareDeck } from "@/store/cardStore.action";
+import { start } from "@/store/gameStore.action";
 
 interface WelcomeProps {
   onSubmit?: (data: { name: string }) => void;

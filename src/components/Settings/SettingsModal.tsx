@@ -6,10 +6,10 @@ import {
   countdownTimeAtom,
   numberOfPairsAtom,
   statusAtom,
-  updateSettings,
 } from "@/store/gameStore";
 import { useStore } from "@nanostores/react";
-import { prepareDeck } from "@/store/cardStore";
+import { updateSettings } from "@/store/gameStore.action";
+import { prepareDeck } from "@/store/cardStore.action";
 
 interface SettingsModalProps {
   open?: boolean;

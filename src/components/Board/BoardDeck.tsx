@@ -2,9 +2,10 @@ import Deck from "../Deck";
 import Card from "../Card";
 import { statusAtom } from "@/store/gameStore";
 import type { Card as CardType } from "@/store/types";
-import { memo, useCallback, useMemo, type FC } from "react";
-import { deckAtom, flipCard, orderAtom } from "@/store/cardStore";
+import { useCallback, useMemo, type FC } from "react";
+import { deckAtom, orderAtom } from "@/store/cardStore";
 import { useStore } from "@nanostores/react";
+import { flipCard } from "@/store/cardStore.action";
 
 const BoardDeck: FC = () => {
   const status = statusAtom.get();
@@ -50,4 +51,4 @@ const BoardDeck: FC = () => {
   );
 };
 
-export default memo(BoardDeck);
+export default BoardDeck;
