@@ -62,12 +62,12 @@ export const flipCard = (cardId: string) => {
   }
 };
 
-export const resetFlippedCards = () => {
-  const deck = deckAtom.get();
-  for (const [key, value] of Object.entries(deck)) {
-    if (!value.matched) {
+export const resetFlippedCards = (cardIds: string[]) => {
+  for (const key of cardIds) {
+    const card = deckAtom.get()[key];
+    if (!card.matched) {
       deckAtom.setKey(key, {
-        ...value,
+        ...card,
         flipped: false,
       });
     }

@@ -52,7 +52,7 @@ const Board: FC = () => {
       makeMoveCard();
 
       setTimeout(() => {
-        resetFlippedCards();
+        resetFlippedCards(flipped);
       }, 1000);
     }
   }, [flipped]);
