@@ -27,9 +27,12 @@ test.describe("Game", () => {
 
     const emojis = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊"];
 
-    for (const emoji of emojis) {
-      await page.getByTestId(emoji).first().click();
+    for (let index = 0; index < emojis.length; index++) {
+      const emoji = emojis[index];
+
+      await expect(page.getByText(`${(index + 1) * 100} score`)).toBeVisible();
       await page.getByTestId(emoji).nth(1).click();
+      await page.getByTestId(emoji).first().click();
     }
 
     await expect(page.getByText("Congratulations! You won!")).toBeVisible();
@@ -64,6 +67,8 @@ test.describe("Game", () => {
 
       await game.start(name);
 
+      await expect(page.getByText("100 score")).toBeVisible();
+
       // 1st guess
       await page.getByTestId(emojis[0]).first().click();
       await page.getByTestId(emojis[1]).first().click();
@@ -71,9 +76,13 @@ test.describe("Game", () => {
       // Trigged flip
       await page.clock.fastForward(1000);
 
+      await expect(page.getByText("90 score")).toBeVisible();
+
       // 2nd guess
       await page.getByTestId(emojis[2]).first().click();
       await page.getByTestId(emojis[3]).first().click();
+
+      await expect(page.getByText("80 score")).toBeVisible();
 
       await expect(page.getByText("Game Over!")).toBeVisible();
     });
