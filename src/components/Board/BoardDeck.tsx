@@ -1,16 +1,14 @@
 import Deck from "../Deck";
 import Card from "../Card";
 import { statusAtom } from "@/store/gameStore";
-import type { Card as CardType } from "@/store/types";
-import { useCallback, useMemo, type FC } from "react";
-import { deckAtom, orderAtom } from "@/store/cardStore";
+import { memo, useCallback, type FC } from "react";
+import { orderedDek } from "@/store/cardStore";
 import { useStore } from "@nanostores/react";
 import { flipCard } from "@/store/cardStore.action";
 
 const BoardDeck: FC = () => {
   const status = statusAtom.get();
-  const order = orderAtom.get();
-  const deck = useStore(deckAtom);
+  const deck = useStore(orderedDek);
 
   const onCardClick = useCallback(
     (cardid: string) => () => {
@@ -21,21 +19,9 @@ const BoardDeck: FC = () => {
     [status],
   );
 
-  const cards = useMemo<CardType[]>(() => {
-    if (order.length === 0) {
-      return Object.values(deck);
-    }
-    const values: CardType[] = [];
-    for (const id of order) {
-      const card = deck[id];
-      values.push(card);
-    }
-    return values;
-  }, [deck, order]);
-
   return (
-    <Deck size={Object.keys(deck).length}>
-      {cards.map((card, i) => (
+    <Deck size={deck.length}>
+      {deck.map((card, i) => (
         <Card
           id={card.id.toString()}
           order={i}
@@ -51,4 +37,4 @@ const BoardDeck: FC = () => {
   );
 };
 
-export default BoardDeck;
+export default memo(BoardDeck);

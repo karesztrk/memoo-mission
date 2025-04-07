@@ -30,3 +30,14 @@ export const allMatched = computed(deckAtom, (deck) => {
   }
   return Object.values(deck).every((card) => card.matched);
 });
+export const orderedDek = computed([orderAtom, deckAtom], (order, deck) => {
+  if (order.length === 0) {
+    return Object.values(deck);
+  }
+  const values: Card[] = [];
+  for (const id of order) {
+    const card = deck[id];
+    values.push(card);
+  }
+  return values;
+});
