@@ -10,6 +10,9 @@ import "./Card.css";
 import { animate } from "./Card.util";
 import useReducedMotion from "@/hooks/useReducedMotion";
 import Magic from "./Magic";
+import usePreviousValue from "@/hooks/usePreviousValue";
+import useDebouncedValue from "@/hooks/useDebouncedValue";
+import { useResetValue } from "@/hooks/useResetValue";
 
 interface CardProps {
   id?: string;
@@ -31,8 +34,15 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
 }) => {
   const reduceMotion = useReducedMotion();
   const [ready, setReady] = useState(false);
+  const [reset, setReset] = useResetValue(1000);
+  const [reveal] = useDebouncedValue(flipped, 350);
   const starRef = useRef<HTMLSpanElement>(null);
+  const previousFlipped = usePreviousValue(flipped);
+  const shouldReset = !flipped && previousFlipped;
 
+  /**
+   * Set when the card is ready to be played.
+   */
   useEffect(() => {
     if (!document.startViewTransition || reduceMotion) {
       setReady(true);
@@ -41,7 +51,6 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
 
     const ms = order * 150;
     const timeout = setTimeout(() => {
-      // transition
       document.startViewTransition(() => {
         setReady(true);
       });
@@ -51,6 +60,18 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
     };
   }, [reduceMotion]);
 
+  /**
+   * Back flip animation timing.
+   */
+  useEffect(() => {
+    if (shouldReset) {
+      setReset(true);
+    }
+  }, [shouldReset]);
+
+  /**
+   * Match animation timing.
+   */
   useEffect(() => {
     const star = starRef.current;
     let index = 0;
@@ -67,10 +88,11 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
       );
     }
   }, [matched, reduceMotion]);
+
   return (
     <button
       onClick={onClick}
-      className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""} ${ready ? "ready" : ""}`}
+      className={`card ${flipped ? "flipped" : ""} ${matched ? "matched" : ""} ${ready ? "ready" : ""} ${reset ? "reset" : ""}`}
       aria-pressed={flipped}
       aria-label={`${flipped ? "Flipped" : "Unflipped"} card`}
       {...(dev && {
@@ -83,9 +105,9 @@ const Card: FC<PropsWithChildren<CardProps>> = ({
     >
       {matched && <Magic ref={starRef} />}
       <div className="card-inner">
-        <div className="front">{flipped && children}</div>
+        <div className="front">{reveal && children}</div>
         <div className="back">
-          {!flipped && (
+          {!reveal && (
             <svg
               className="back-image"
               width="90"

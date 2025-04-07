@@ -3,7 +3,8 @@
   --_card-height: var(--card-height, 150px);
   --_card-gap: 10px;
   --_transition: 850ms;
-  --_transition-flip: 300ms;
+  --_transition-flip: 1250ms;
+  --_transition-flip-back: 500ms;
   --_shadow-strong: 0px 2px 5px 0px #00000040;
   --_shadow-light: 0 2px 1px 0px rgba(0, 0, 0, 0.1);
   --_flip-easing: linear(
@@ -33,9 +34,7 @@
   border-radius: 10px;
   box-shadow: var(--_shadow-light);
   border: 1px solid var(--color-border);
-  transition:
-    box-shadow var(--_transition) ease-out,
-    transform var(--_transition) var(--_flip-easing);
+  transition: box-shadow var(--_transition) ease-out;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -82,8 +81,12 @@
     }
   }
 
+  &.reset {
+    animation: flip-back var(--_transition-flip) var(--_flip-easing) forwards;
+  }
+
   &.flipped {
-    transform: rotateY(180deg);
+    animation: flip var(--_transition-flip) var(--_flip-easing) forwards;
     box-shadow: var(--_shadow-strong);
 
     &:hover {
@@ -91,7 +94,6 @@
     }
 
     .card-inner {
-      transform: rotateY(0);
       background-color: var(--color-gray-lightest);
     }
   }
