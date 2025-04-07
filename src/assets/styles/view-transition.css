@@ -1,0 +1,18 @@
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    /* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
+    navigation: auto;
+  }
+
+  main section {
+    view-transition-name: content;
+  }
+
+  header > nav svg.logo {
+    view-transition-name: logo;
+  }
+
+  header > nav .user-menu .settings-button {
+    view-transition-name: settings;
+  }
+}

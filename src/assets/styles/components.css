@@ -1,0 +1,107 @@
+.container {
+  container: container / inline-size;
+}
+
+label {
+  font-family: var(--font-family-bold);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+input {
+  border-radius: 10px;
+
+  font-family: var(--font-family-medium);
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.container input {
+  /* Small tweak to center align the font inside a form input */
+  padding-block-start: calc(var(--pico-form-element-spacing-vertical) + 2px);
+}
+
+button[type="submit"] {
+  font-family: var(--font-family-bold);
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-transform: uppercase;
+  padding-block: 15px;
+}
+
+dialog article header {
+  padding-block: 25px;
+  padding-inline: 20px;
+
+  h3 {
+    font-family: var(--font-family-heavy);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: 0%;
+  }
+
+  button[rel="prev"] {
+    background-size: auto 1.5rem;
+    border-radius: 0;
+    padding: 15px;
+    margin-top: -4px;
+  }
+}
+
+::backdrop {
+  --_transition-duration: 500ms;
+  transition:
+    display var(--_transition-duration) allow-discrete,
+    overlay var(--_transition-duration) allow-discrete,
+    opacity var(--_transition-duration);
+  opacity: 0;
+}
+
+dialog {
+  --_transition-duration-enter: 350ms;
+  --_transition-duration-exit: 250ms;
+  --_transition-easing-exit: cubic-bezier(0.61, 1, 0.87, 1);
+  transition:
+    display var(--_transition-duration-exit) allow-discrete,
+    overlay var(--_transition-duration-exit) allow-discrete,
+    translate var(--_transition-duration-exit) var(--_transition-easing-exit),
+    opacity var(--_transition-duration-exit) var(--_transition-easing-exit);
+  opacity: 0;
+  translate: 0px -20px;
+}
+
+[open],
+[open]::backdrop {
+  translate: 0 0;
+
+  transition:
+    display var(--_transition-duration-enter) allow-discrete,
+    overlay var(--_transition-duration-enter) allow-discrete,
+    translate var(--_transition-duration-enter) ease,
+    opacity var(--_transition-duration-enter) ease;
+}
+
+[open] {
+  opacity: 1;
+}
+
+@starting-style {
+  [open],
+  [open]::backdrop {
+    opacity: 0.2;
+  }
+  [open] {
+    translate: 0px -20px;
+  }
+}
+
+[data-theme="light"] {
+  dialog article header {
+    background: var(--color-gray-light);
+  }
+}

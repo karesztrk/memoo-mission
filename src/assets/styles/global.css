@@ -1,5 +1,12 @@
+@import url("./animations.css");
+@import url("./view-transition.css");
+@import url("./components.css");
+
 :root {
-  --pico-font-family: "Gilroy-Bold", sans-serif;
+  --font-family-bold: "Gilroy-Bold", sans-serif;
+  --font-family-medium: "Gilroy-Medium", sans-serif;
+  --font-family-heavy: "Gilroy-Heavy", sans-serif;
+  --pico-font-family: var(--font-family-bold);
   --color-brand: #ff3f56;
   --color-green-light: #ebf5f3;
   --color-green: #b6e9de;
@@ -12,6 +19,8 @@
   --color-icon-button: var(--color-gray-medium);
   --pico-nav-element-spacing-vertical: 30px;
   --color-card-front-bg: var(--cloli-gray-light);
+  --pico-form-element-spacing-vertical: 10px;
+  --pico-form-element-spacing-horizontal: 17px;
 }
 
 [data-theme="light"],
@@ -26,153 +35,4 @@
   --pico-primary-focus: rgba(244, 93, 44, 0.5);
   --pico-primary-inverse: #fff;
   --pico-border-radius: 30px;
-}
-
-.container {
-  container: container / inline-size;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    /* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
-    navigation: auto;
-  }
-
-  main section {
-    view-transition-name: content;
-  }
-
-  header > nav svg.logo {
-    view-transition-name: logo;
-  }
-
-  header > nav .user-menu .settings-button {
-    view-transition-name: settings;
-  }
-}
-
-@keyframes scale {
-  from,
-  to {
-    transform: scale(0);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(180deg);
-  }
-}
-
-@property --hue {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
-}
-
-@keyframes colorful {
-  from {
-    --hue: 0deg;
-  }
-
-  to {
-    --hue: 100deg;
-  }
-}
-
-label {
-  font-family: "Gilroy-Bold", sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 100%;
-  letter-spacing: 0%;
-}
-
-input {
-  border-radius: 10px;
-
-  font-family: "Gilroy-Medium", sans-serif;
-  font-size: 18px;
-  line-height: 100%;
-  letter-spacing: 0%;
-}
-
-button[type="submit"] {
-  font-family: "Gilroy-Bold", sans-serif;
-  font-size: 16px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  text-transform: uppercase;
-  padding-block: 15px;
-}
-
-dialog article header {
-  padding-block: 25px;
-  padding-inline: 20px;
-
-  h3 {
-    font-family: "Gilroy-Heavy", sans-serif;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: 0%;
-  }
-
-  button[rel="prev"] {
-    background-size: auto 1.5rem;
-    border-radius: 0;
-    padding: 15px;
-    margin-top: -4px;
-  }
-}
-
-::backdrop {
-  transition:
-    display 500ms allow-discrete,
-    overlay 500ms allow-discrete,
-    opacity 500ms;
-  opacity: 0;
-}
-
-dialog {
-  transition:
-    display 500ms allow-discrete,
-    overlay 500ms allow-discrete,
-    translate 500ms,
-    opacity 500ms;
-  opacity: 0;
-  translate: 0px -20px;
-}
-
-[open],
-[open]::backdrop {
-  translate: 0 0;
-}
-
-[open] {
-  opacity: 1;
-}
-
-@starting-style {
-  [open],
-  [open]::backdrop {
-    opacity: 0;
-  }
-  [open] {
-    translate: 0px -20px;
-  }
-}
-
-[data-theme="light"] {
-  dialog article header {
-    background: var(--color-gray-light);
-  }
 }
