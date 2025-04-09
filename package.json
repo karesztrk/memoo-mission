@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@astrojs/react": "^4.2.3",
+    "@axe-core/playwright": "^4.10.1",
     "@biomejs/biome": "1.9.4",
     "@playwright/test": "^1.51.1",
     "@testing-library/jest-dom": "^6.6.3",
