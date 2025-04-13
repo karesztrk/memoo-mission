@@ -1,11 +1,10 @@
 import { describe, expect, test } from "vitest";
-import { screen } from "@testing-library/react";
-import { renderWithProviders } from "@/test/utils/test-utils";
+import { render, screen } from "@testing-library/react";
 import Settings from "@/components/Settings";
 
 describe("Settings", () => {
   test("default form values", async () => {
-    renderWithProviders(<Settings />);
+    render(<Settings />);
 
     expect(
       screen.getByRole("spinbutton", { name: "Number of pair of cards" }),

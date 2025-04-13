@@ -1,17 +1,18 @@
-import { useEffect, useState, type FC } from "react";
-import "./UserMenu.css";
-import { getStore, subscribeToStore } from "@/store/store";
-import { restart, type GameStatus } from "@/store/gameSlice";
+import { statusAtom } from "@/store/gameStore";
 import SettingsModal from "../Settings/SettingsModal";
+import { useState } from "react";
+import type { FC } from "react";
+import { useStore } from "@nanostores/react";
+import "./UserMenu.css";
+import { userAtom } from "@/store/userStore";
+import { restart } from "@/store/gameStore.action";
 
 const UserMenu: FC = () => {
-  const [status, setStatus] = useState<GameStatus>(
-    getStore().getState().game.status,
-  );
+  const status = useStore(statusAtom);
   const playing = status === "playing" || status === "gameover";
+  const username = userAtom.get();
 
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const username = getStore().getState().user.userName || "";
 
   const onOpenSettings = () => {
     setSettingsOpen(true);
@@ -23,31 +24,15 @@ const UserMenu: FC = () => {
 
   const onPlayAgain = () => {
     if (!document.startViewTransition) {
-      getStore().dispatch(restart());
+      restart();
       return;
     }
 
     // transition
     document.startViewTransition(() => {
-      getStore().dispatch(restart());
+      restart();
     });
   };
-
-  /**
-   * Subscribe to store changes.
-   */
-  useEffect(() => {
-    const unsubscribe = subscribeToStore(
-      (state) => state.game.status,
-      (status) => {
-        setStatus(status);
-      },
-    );
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   return (
     <>

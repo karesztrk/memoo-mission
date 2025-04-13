@@ -1,23 +1,19 @@
 import Deck from "../Deck";
 import Card from "../Card";
-import type { Card as CardType } from "@/store/gameSlice";
+import { statusAtom } from "@/store/gameStore";
 import { memo, useCallback, type FC } from "react";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { flipCard } from "@/store/cardSlice";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { orderedDek } from "@/store/cardStore";
+import { useStore } from "@nanostores/react";
+import { flipCard } from "@/store/cardStore.action";
 
-interface BoardDeckProps {
-  deck?: CardType[];
-}
-
-const BoardDeck: FC<BoardDeckProps> = ({ deck = [] }) => {
-  const dispatch = useAppDispatch();
-  const status = useAppSelector((state) => state.game.status);
+const BoardDeck: FC = () => {
+  const status = statusAtom.get();
+  const deck = useStore(orderedDek);
 
   const onCardClick = useCallback(
-    (cardid: number) => () => {
+    (cardid: string) => () => {
       if (status === "playing") {
-        dispatch(flipCard(cardid));
+        flipCard(cardid);
       }
     },
     [status],
@@ -41,4 +37,4 @@ const BoardDeck: FC<BoardDeckProps> = ({ deck = [] }) => {
   );
 };
 
-export default memo(BoardDeck, (left, right) => left.deck === right.deck);
+export default memo(BoardDeck);

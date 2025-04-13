@@ -1,12 +1,11 @@
 import { describe, expect, test, vitest } from "vitest";
-import { screen } from "@testing-library/react";
-import { renderWithProviders } from "@/test/utils/test-utils";
+import { render, screen } from "@testing-library/react";
 import SettingsModal from "@/components/Settings/SettingsModal";
 import userEvent from "@testing-library/user-event";
 
 describe("SettingsModal", () => {
   test("closed dialog", async () => {
-    renderWithProviders(<SettingsModal />);
+    render(<SettingsModal />);
     expect(
       screen.getByRole("spinbutton", {
         name: "Number of pair of cards",
@@ -27,14 +26,14 @@ describe("SettingsModal", () => {
   test("light dismiss", async () => {
     const onClose = vitest.fn();
     const user = userEvent.setup();
-    renderWithProviders(<SettingsModal open onClose={onClose} />);
+    render(<SettingsModal open onClose={onClose} />);
 
     await user.click(screen.getByRole("dialog"));
     expect(onClose).toBeCalledTimes(1);
   });
 
   test("opened dialog", async () => {
-    renderWithProviders(<SettingsModal open />);
+    render(<SettingsModal open />);
     expect(
       screen.getByRole("spinbutton", { name: "Number of pair of cards" }),
     ).toBeVisible();
@@ -57,8 +56,7 @@ describe("SettingsModal", () => {
   test("submit settings", async () => {
     const onClose = vitest.fn();
     const user = userEvent.setup();
-    const deck = ["A", "B", "C"];
-    renderWithProviders(<SettingsModal open onClose={onClose} deck={deck} />);
+    render(<SettingsModal open onClose={onClose} />);
 
     await user.click(screen.getByRole("button", { name: "Save settings" }));
 

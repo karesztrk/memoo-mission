@@ -1,83 +1,90 @@
 import { describe, expect, test } from "vitest";
-import { screen } from "@testing-library/react";
-import { renderWithProviders } from "@/test/utils/test-utils";
+import { screen, render } from "@testing-library/react";
 import BoardDeck from "@/components/Board/BoardDeck";
+import { deckAtom } from "@/store/cardStore";
+import type { Card } from "@/store/gameStore";
 
 describe("Board deck", () => {
   test("renders empty", async () => {
-    renderWithProviders(<BoardDeck />);
+    render(<BoardDeck />);
 
     expect(screen.getByLabelText("Game deck")).toBeInTheDocument();
   });
 
   test("renders main playing elements", async () => {
-    const deck = [
-      {
-        id: 1,
+    const deck: Record<string, Card> = {
+      1: {
+        id: "1",
         value: "🐶",
         flipped: false,
         matched: false,
       },
-      {
-        id: 2,
+      2: {
+        id: "2",
         value: "🐱",
         flipped: false,
         matched: false,
       },
-      {
-        id: 3,
+      3: {
+        id: "3",
         value: "🐭",
         flipped: false,
         matched: false,
       },
-    ];
+    };
+    deckAtom.set(deck);
+    const size = Object.keys(deck).length;
 
-    renderWithProviders(<BoardDeck deck={deck} />);
+    render(<BoardDeck />);
 
     expect(screen.getByLabelText("Game deck")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: "Unflipped card" }).length,
-    ).toBe(deck.length);
+    ).toBe(size);
 
-    for (const card of deck) {
+    for (const key in deck) {
+      const card = deck[key];
       expect(screen.getByTestId(card.value)).toHaveTextContent("Card back");
     }
   });
 
   test("renders flipped cards elements", async () => {
-    const deck = [
-      {
-        id: 1,
+    const deck: Record<string, Card> = {
+      1: {
+        id: "1",
         value: "🐶",
         flipped: true,
         matched: false,
       },
-      {
-        id: 2,
+      2: {
+        id: "2",
         value: "🐱",
         flipped: true,
         matched: false,
       },
-      {
-        id: 3,
+      3: {
+        id: "3",
         value: "🐭",
         flipped: false,
         matched: false,
       },
-    ];
+    };
+    deckAtom.set(deck);
 
-    const flipped = deck
+    const size = Object.keys(deck).length;
+    const flipped = Object.values(deck)
       .filter((card) => card.flipped)
       .reduce((acc) => acc + 1, 0);
 
-    renderWithProviders(<BoardDeck deck={deck} />);
+    render(<BoardDeck />);
 
     expect(screen.getByLabelText("Game deck")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: "Unflipped card" }).length,
-    ).toBe(deck.length - flipped);
+    ).toBe(size - flipped);
 
-    for (const card of deck) {
+    for (const key in deck) {
+      const card = deck[key];
       expect(screen.getByTestId(card.value)).toHaveTextContent(
         card.flipped ? card.value : "Card back",
       );

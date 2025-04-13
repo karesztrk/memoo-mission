@@ -1,8 +1,15 @@
 import type { FC, FormEvent } from "react";
 import Modal from "../Modal";
 import Settings from "./Settings";
-import { updateSettings } from "@/store/gameSlice";
-import { getStore } from "@/store/store";
+import {
+  allowedMovesAtom,
+  countdownTimeAtom,
+  numberOfPairsAtom,
+  statusAtom,
+} from "@/store/gameStore";
+import { useStore } from "@nanostores/react";
+import { updateSettings } from "@/store/gameStore.action";
+import { prepareDeck } from "@/store/cardStore.action";
 
 interface SettingsModalProps {
   open?: boolean;
@@ -10,10 +17,10 @@ interface SettingsModalProps {
 }
 
 const SettingsModal: FC<SettingsModalProps> = ({ open, onClose }) => {
-  const store = getStore();
-  const dispatch = store.dispatch;
-  const { numberOfPairs, countdownTime, allowedMoves, status } =
-    store.getState().game;
+  const status = useStore(statusAtom);
+  const allowedMoves = useStore(allowedMovesAtom);
+  const numberOfPairs = useStore(numberOfPairsAtom);
+  const countdownTime = useStore(countdownTimeAtom);
   const playing = status === "playing";
 
   const handleSubmit = (e: FormEvent) => {
@@ -32,13 +39,14 @@ const SettingsModal: FC<SettingsModalProps> = ({ open, onClose }) => {
     if (Number.isNaN(numberOfPairs) || Number.isNaN(countdownTime)) {
       return;
     }
-    dispatch(
-      updateSettings({
-        numberOfPairs,
-        countdownTime,
-        allowedMoves: allowedGuesses,
-      }),
-    );
+    updateSettings({
+      numberOfPairs,
+      countdownTime,
+      allowedMoves: allowedGuesses,
+    });
+    prepareDeck({
+      numberOfPairs,
+    });
     onClose?.();
   };
 

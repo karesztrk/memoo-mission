@@ -1,40 +1,27 @@
-import { useEffect, useState, type FC } from "react";
+import type { FC } from "react";
 import "./Stats.css";
-import { getStore, subscribeToStore } from "@/store/store";
-import { selectMistakes, selectScore } from "@/store/gameSlice";
+import {
+  allowedMovesAtom,
+  matchesAtom,
+  movesAtom,
+  selectMistakes,
+  selectScore,
+  statusAtom,
+  timeRemainingAtom,
+} from "@/store/gameStore";
 import { formatTime } from "./Stats.util";
+import { useStore } from "@nanostores/react";
 
 const Stats: FC = () => {
-  const [state, setState] = useState(getStore().getState().game);
-  const { moves, timeRemaining, status, allowedMoves } = state;
+  const status = useStore(statusAtom);
+  const moves = useStore(movesAtom);
+  const matches = useStore(matchesAtom);
+  const timeRemaining = useStore(timeRemainingAtom);
+  const allowedMoves = useStore(allowedMovesAtom);
   const playing = status === "playing" || status === "gameover";
 
-  const [matches, setMatches] = useState(getStore().getState().game.matches);
-  const [mistakes, setMistakes] = useState(selectMistakes(getStore().getState()));
-  const [score, setScore] = useState(selectScore(getStore().getState()));
-
-  /**
-   * Subscribe to store changes.
-   */
-  useEffect(() => {
-    const unsubscribe = subscribeToStore(
-      (state) => state.game,
-      (state) => {
-        setState(state);
-        setMatches(state.matches);
-
-        const mistakes = selectMistakes({ game: state });
-        setMistakes(mistakes);
-
-        const score = selectScore({ game: state });
-        setScore(score);
-      },
-    );
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const score = selectScore.get();
+  const mistakes = selectMistakes.get();
 
   if (!playing) {
     return <></>;

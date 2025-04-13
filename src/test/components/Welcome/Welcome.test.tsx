@@ -1,7 +1,6 @@
 import { describe, expect, test, vitest } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import Welcome from "@/components/Welcome";
-import { renderWithProviders } from "@/test/utils/test-utils";
 import userEvent from "@testing-library/user-event";
 
 describe("Welcome", () => {
@@ -10,7 +9,7 @@ describe("Welcome", () => {
     const user = userEvent.setup();
     const onSubmit = vitest.fn();
 
-    renderWithProviders(<Welcome onSubmit={onSubmit} />);
+    render(<Welcome onSubmit={onSubmit} />);
 
     await user.type(screen.getByRole("textbox", { name: "Your Name" }), name);
     await user.click(screen.getByRole("button", { name: "Start Game" }));

@@ -1,29 +1,35 @@
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import "./Welcome.css";
 import type { FC, FormEvent } from "react";
-import { start } from "@/store/gameSlice";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import {
+  allowedMovesAtom,
+  numberOfPairsAtom,
+  timeRemainingAtom,
+} from "@/store/gameStore";
+import { userAtom } from "@/store/userStore";
+import { useStore } from "@nanostores/react";
+import { prepareDeck } from "@/store/cardStore.action";
+import { start } from "@/store/gameStore.action";
 
 interface WelcomeProps {
   onSubmit?: (data: { name: string }) => void;
 }
 
 const Welcome: FC<WelcomeProps> = ({ onSubmit: onSubmitProp }) => {
-  const dispatch = useAppDispatch();
-  const { numberOfPairs, timeRemaining, allowedMoves } = useAppSelector(
-    (state) => state.game,
-  );
-  const username = useAppSelector((state) => state.user.userName);
+  const timeRemaining = useStore(timeRemainingAtom);
+  const allowedMoves = useStore(allowedMovesAtom);
+  const numberOfPairs = useStore(numberOfPairsAtom);
+  const username = userAtom.get();
 
   const dispatchStart = (username: string) => {
-    dispatch(
-      start({
-        username,
-        numberOfPairs,
-        countdownTime: timeRemaining,
-        allowedMoves,
-      }),
-    );
+    userAtom.set(username);
+    start({
+      numberOfPairs,
+      countdownTime: timeRemaining,
+      allowedMoves,
+    });
+    prepareDeck({
+      numberOfPairs,
+    });
   };
 
   const handleSubmit = (e: FormEvent) => {
