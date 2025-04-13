@@ -1,6 +1,7 @@
 .card {
   --_card-width: var(--card-width, 100px);
   --_card-height: var(--card-height, 150px);
+  --_card-thickness: var(--card-thickness, 5px);
   --_card-gap: 10px;
   --_transition: 850ms;
   --_transition-flip: 300ms;
@@ -36,6 +37,7 @@
   transition:
     box-shadow var(--_transition) ease-out,
     transform var(--_transition) var(--_flip-easing);
+  transform: translateZ(-100px) rotateY(180deg);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -83,32 +85,39 @@
   }
 
   &.flipped {
-    transform: rotateY(180deg);
+    transform: translateZ(-100px) rotateY(0deg);
     box-shadow: var(--_shadow-strong);
 
     &:hover {
       box-shadow: var(--_shadow-light);
-    }
-
-    .card-inner {
-      transform: rotateY(0);
-      background-color: var(--color-gray-lightest);
     }
   }
   &.matched {
     pointer-events: none;
   }
 
-  .card-inner {
-    position: absolute;
+  .face {
     inset: 0;
     margin: auto;
-    inline-size: calc(var(--_card-width) - var(--_card-gap));
-    block-size: calc(var(--_card-height) - var(--_card-gap));
     border-radius: 8px;
     display: grid;
     place-content: center;
     font-size: 2.25rem;
+  }
+
+  .face {
+    position: absolute;
+    inset: 0;
+    width: var(--_card-width);
+    height: var(--_card-height);
+  }
+
+  .front {
+    transform: rotateY(0deg) translateZ(calc(var(--_card-thickness) / 2));
+  }
+
+  .back {
+    transform: rotateY(180deg) translateZ(calc(var(--_card-thickness) / 2));
   }
 
   .magic {
