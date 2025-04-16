@@ -1,0 +1,16 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Game from "@/components/Game";
+import Stats from "@/components/Stats";
+import UserMenu from "@/components/UserMenu";
+---
+
+<Layout>
+  <Fragment slot='header'>
+    <Stats client:load />
+    <UserMenu client:load />
+  </Fragment>
+  <section>
+    <Game client:load />
+  </section>
+</Layout>

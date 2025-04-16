@@ -22,15 +22,19 @@ const UserMenu: FC = () => {
     setSettingsOpen(false);
   };
 
+  const dispatchRestart = () => {
+    restart();
+  };
+
   const onPlayAgain = () => {
     if (!document.startViewTransition) {
-      restart();
+      dispatchRestart();
       return;
     }
 
     // transition
     document.startViewTransition(() => {
-      restart();
+      dispatchRestart();
     });
   };
 
@@ -63,11 +67,10 @@ const UserMenu: FC = () => {
             </li>
             {playing && (
               <li className="control">
-                <button
-                  type="button"
-                  onClick={onPlayAgain}
+                <a
                   className="icon-button restart-button"
                   aria-label="Restart"
+                  href="/"
                 >
                   <svg
                     width="24"
@@ -82,7 +85,7 @@ const UserMenu: FC = () => {
                       fill="currentColor"
                     />
                   </svg>
-                </button>
+                </a>
               </li>
             )}
           </ul>

@@ -15,6 +15,7 @@
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@nanostores/persistent": "^1.0.0",
     "@nanostores/react": "^0.8.4",
     "@picocss/pico": "^2.1.1",
     "astro": "^5.6.1",

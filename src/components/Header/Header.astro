@@ -1,7 +1,5 @@
 ---
 import "./Header.css";
-import Stats from "@/components/Stats";
-import UserMenu from "@/components/UserMenu";
 import Logo from "@/assets/images/icons/Logo.svg";
 ---
 
@@ -15,7 +13,6 @@ import Logo from "@/assets/images/icons/Logo.svg";
         </a>
       </li>
     </ul>
-    <Stats client:load />
-    <UserMenu client:load />
+    <slot name="header"/>
   </nav>
 </header>

@@ -1,3 +1,3 @@
-import { atom } from "nanostores";
+import { persistentAtom } from "@nanostores/persistent";
 
-export const userAtom = atom("");
+export const userAtom = persistentAtom<string>("name", "");

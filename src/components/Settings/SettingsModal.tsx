@@ -10,6 +10,7 @@ import {
 import { useStore } from "@nanostores/react";
 import { updateSettings } from "@/store/gameStore.action";
 import { prepareDeck } from "@/store/cardStore.action";
+import { validate } from "./Settings.util";
 
 interface SettingsModalProps {
   open?: boolean;
@@ -23,22 +24,10 @@ const SettingsModal: FC<SettingsModalProps> = ({ open, onClose }) => {
   const countdownTime = useStore(countdownTimeAtom);
   const playing = status === "playing";
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.target as HTMLFormElement);
-    const pairs = data.get("pairs") as string | null;
-    const time = data.get("time") as string | null;
-    const guesses = data.get("guesses") as string | null;
-    if (!pairs || !time) {
-      return;
-    }
-    const numberOfPairs = Number.parseInt(pairs);
-    const countdownTime = Number.parseInt(time);
-    const allowedGuesses = guesses ? Number.parseInt(guesses) : undefined;
-
-    if (Number.isNaN(numberOfPairs) || Number.isNaN(countdownTime)) {
-      return;
-    }
+    const data = new FormData(e.currentTarget);
+    const { numberOfPairs, countdownTime, allowedGuesses } = validate(data);
     updateSettings({
       numberOfPairs,
       countdownTime,
